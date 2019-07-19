@@ -4,6 +4,12 @@ import cv2
 import os
 
 showSteps = True
+# module level variables ##########################################################################
+SCALAR_BLACK = (0.0, 0.0, 0.0)
+SCALAR_WHITE = (255.0, 255.0, 255.0)
+SCALAR_YELLOW = (0.0, 255.0, 255.0)
+SCALAR_GREEN = (0.0, 255.0, 0.0)
+SCALAR_RED = (0.0, 0.0, 255.0)
 def main():
     isKNNTrainingSuccessful = DetCh.loadKNNDataAndTrainKNN()  # attempt KNN training
 
@@ -23,9 +29,9 @@ def main():
 
     print("resim okundu")
 
-    listPlates = DetLP.detectPlatesInScene(imgOriginalScene)  # detect plates
+    listPlates = DetLP.detectPlatesInFrame(imgOriginalScene)  # detect plates
 
-    listChars = DetCh.detectCharsInPlates(listPlates)  # detect chars in plates
+    listChars = DetCh.detectCharsInFrame(listPlates)  # detect chars in plates
 
     cv2.imshow("imgOriginalScene", imgOriginalScene)  # show scene image
 
