@@ -15,6 +15,7 @@
           <option value="DetCh" />
           <option value="DetLP" />
           <option value="Main" />
+          <option value="EditFrame" />
         </list>
       </option>
     </inspection_tool>

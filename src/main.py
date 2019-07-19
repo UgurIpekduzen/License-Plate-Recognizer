@@ -3,6 +3,7 @@ import DetCh
 import cv2
 import os
 
+showSteps = True
 def main():
     isKNNTrainingSuccessful = DetCh.loadKNNDataAndTrainKNN()  # attempt KNN training
 

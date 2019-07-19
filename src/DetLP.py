@@ -2,7 +2,7 @@ import numpy as np
 import cv2
 
 import Main
-import EditPic
+import EditFrame
 
 def detectPlatesInScene(imgOriginalScene):
     listOfPossiblePlates = []                   # this will be the return value
@@ -15,11 +15,15 @@ def detectPlatesInScene(imgOriginalScene):
 
     if Main.showSteps == True: # show steps #######################################################
         cv2.imshow("0", imgOriginalScene)
+        cv2.waitKey(0)
     # end if # show steps #########################################################################
 
-    imgGrayscaleScene, imgThreshScene = EditPic.preprocess(imgOriginalScene)         # preprocess to get grayscale and threshold images
+    imgGrayscaleScene, imgThreshScene = EditFrame.preprocess(imgOriginalScene)         # preprocess to get grayscale and threshold images
 
     if Main.showSteps == True: # show steps #######################################################
         cv2.imshow("1a", imgGrayscaleScene)
         cv2.imshow("1b", imgThreshScene)
+        cv2.waitKey(0)
     # end if # show steps #########################################################################
+
+    return
