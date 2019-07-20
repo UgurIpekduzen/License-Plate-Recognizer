@@ -31,12 +31,13 @@ def main():
 
     listPlates = DetLP.detectPlatesInFrame(imgOriginalScene)  # detect plates
 
-    listChars = DetCh.detectCharsInFrame(listPlates)  # detect chars in plates
+    listOfPossiblePlates = DetCh.detectCharsInPlates(listPlates)        # detect chars in plates
 
     cv2.imshow("imgOriginalScene", imgOriginalScene)  # show scene image
 
 
     return
 #end
+
 if __name__ == "__main__":
     main()

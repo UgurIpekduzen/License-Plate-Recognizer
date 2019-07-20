@@ -17,6 +17,7 @@
           <option value="Main" />
           <option value="EditFrame" />
           <option value="PossibleChar" />
+          <option value="PossibleLP" />
         </list>
       </option>
     </inspection_tool>
