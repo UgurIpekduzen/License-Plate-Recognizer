@@ -1,3 +1,5 @@
+# PossibleChar.py
+
 import cv2
 import math
 
@@ -8,23 +10,31 @@ class PossibleChar:
     def __init__(self, _contour):
         self.contour = _contour
 
-        self.boundRect = cv2.boundingRect(self.contour)
+        self.boundingRect = cv2.boundingRect(self.contour)
 
-        [X, Y, width, height] = self.boundRect
+        [intX, intY, intWidth, intHeight] = self.boundingRect
 
-        self.RectX = X
-        self.RectY = Y
-        self.RectWidth = width
-        self.RectHeight = height
+        self.intBoundingRectX = intX
+        self.intBoundingRectY = intY
+        self.intBoundingRectWidth = intWidth
+        self.intBoundingRectHeight = intHeight
 
-        self.RectArea = self.RectWidth * self.RectHeight
+        self.intBoundingRectArea = self.intBoundingRectWidth * self.intBoundingRectHeight
 
-        self.CenterX = (self.RectX + self.RectX + self.RectWidth) / 2
-        self.CenterY = (self.RectY + self.RectY + self.RectHeight) / 2
+        self.intCenterX = (self.intBoundingRectX + self.intBoundingRectX + self.intBoundingRectWidth) / 2
+        self.intCenterY = (self.intBoundingRectY + self.intBoundingRectY + self.intBoundingRectHeight) / 2
 
-        self.fltDiagonalSize = math.sqrt((self.RectWidth ** 2) + (self.RectHeight ** 2))
+        self.fltDiagonalSize = math.sqrt((self.intBoundingRectWidth ** 2) + (self.intBoundingRectHeight ** 2))
 
-        self.fltAspectRatio = float(self.RectWidth) / float(self.RectHeight)
+        self.fltAspectRatio = float(self.intBoundingRectWidth) / float(self.intBoundingRectHeight)
     # end constructor
 
 # end class
+
+
+
+
+
+
+
+
