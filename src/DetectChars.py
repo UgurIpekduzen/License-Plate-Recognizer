@@ -43,7 +43,7 @@ RESIZED_CHAR_IMAGE_HEIGHT = 30
 MIN_CONTOUR_AREA = 100
 
 RESIZED_IMAGE_WIDTH = 20
-RESIZED_IMAGE_HEIGHT = 20
+RESIZED_IMAGE_HEIGHT = 30
 
 ###################################################################################################
 
@@ -58,7 +58,7 @@ def generateData(path):
         for fileName in os.listdir(strSubDirPath):
 
             strFilePath = os.path.join(strSubDirPath, fileName)
-            print(str(ord(dirName)) + "   " + dirName + "   " + fileName + "    " + strFilePath)
+            print("     " + str(ord(dirName)) + "   " + dirName + "   " + fileName + "    " + strFilePath)
             imgTrainingChar = cv2.imread(strFilePath)
 
             imgGray = cv2.cvtColor(imgTrainingChar, cv2.COLOR_BGR2GRAY)  # get grayscale image
@@ -99,14 +99,14 @@ def generateData(path):
 
                     npaFlattenedImage = imgROIResized.reshape((1, RESIZED_IMAGE_WIDTH * RESIZED_IMAGE_HEIGHT))  # flatten image to 1d numpy array so we can write to file later
                     npaFlattenedImages = np.append(npaFlattenedImages, npaFlattenedImage, 0)  # add current flattened impage numpy array to list of flattened image numpy arrays
-                    print("npFlattenedImages array size: " + str(np.size(npaFlattenedImages)))
                     fltClassifications = np.array(intClassifications, np.float32)  # convert classifications list of ints to numpy array of floats
                     npaClassifications = fltClassifications.reshape((fltClassifications.size, 1))  # flatten numpy array of floats to 1d so we can write to file later
 
                 # end if
             # end for
-
-
+            print("     " + fileName + " is read")
+            time.sleep(1)
+        #end for
 
         print("Files in " + dirName + " is finished")
     np.savetxt("classifications.txt", npaClassifications)  # write flattened images to file

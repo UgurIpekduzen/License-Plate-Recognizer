@@ -39,19 +39,20 @@ def main():
         if isDataGenerated == False:
             print("\nerror: generating data was not successful\n")  # show error message
             return  # and exit program
+        #end if
+    #end if
+    blnKNNTrainingSuccessful = DetectChars.loadKNNDataAndTrainKNN()  # attempt KNN training
+
+    if blnKNNTrainingSuccessful == False:  # if KNN training was not successful
+        print("\nerror: KNN training was not successful\n")  # show error message
+        return  # and exit program
     # end if
-    # blnKNNTrainingSuccessful = DetectChars.loadKNNDataAndTrainKNN()  # attempt KNN training
-    #
-    # if blnKNNTrainingSuccessful == False:  # if KNN training was not successful
-    #     print("\nerror: KNN training was not successful\n")  # show error message
-    #     return  # and exit program
-    # # end if
-    #
-    # # fromIPCAM()
-    # fromLocalPath('E:/Repos/License Plate Recognizer/testimages/23.png')
-    # # fromLPDatasetAndSaveXLS("E:/Repos/License Plate Recognizer/LPs")
-    #
-    # cv2.waitKey(0)  # hold windows open until user presses a key
+
+    # fromIPCAM()
+    #fromLocalPath('E:/Repos/License Plate Recognizer/testimages/23.png')
+    fromLPDatasetAndSaveXLS("E:/Repos/License Plate Recognizer/LPs")
+
+    cv2.waitKey(0)  # hold windows open until user presses a key
     return
 # end main
 
