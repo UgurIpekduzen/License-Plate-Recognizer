@@ -32,8 +32,10 @@ if (not os.environ.get('PYTHONHTTPSVERIFY', '') and
 #####################################################################################################
 
 def main():
+
     isClassificationFileExists = os.path.isfile("./classifications.txt")
     isFlattenedImagesFileExists = os.path.isfile("./flattened_images.txt")
+
     if (isClassificationFileExists and isFlattenedImagesFileExists) is False:
         isDataGenerated = DetectChars.generateData('E:/Repos/License Plate Recognizer/train20X20')
         if isDataGenerated == False:
@@ -49,8 +51,8 @@ def main():
     # end if
 
     # fromIPCAM()
-    #fromLocalPath('E:/Repos/License Plate Recognizer/testimages/23.png')
-    fromLPDatasetAndSaveXLS("E:/Repos/License Plate Recognizer/LPs")
+    fromLocalPath('E:/Repos/License Plate Recognizer/testimages/32.jpg')
+    #fromLPDatasetAndSaveXLS("E:/Repos/License Plate Recognizer/LPs")
 
     cv2.waitKey(0)  # hold windows open until user presses a key
     return
@@ -201,7 +203,7 @@ def fromLocalPath(path):
         os.system("pause")  # pause so user can see error message
         return  # and exit program
     # end if
-    imgOriginalScene = adjust(imgOriginalScene,400)
+    imgOriginalScene = adjust(imgOriginalScene,340)
     cv2.imshow("adjust", imgOriginalScene)
     cv2.waitKey(0)
     listOfPossiblePlates = DetectPlates.detectPlatesInScene(imgOriginalScene)  # detect plates

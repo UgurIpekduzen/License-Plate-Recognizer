@@ -13,11 +13,17 @@ RESIZED_IMAGE_HEIGHT = 30
 
 ###################################################################################################
 def main():
-    count = 0
+
     intClassifications = []  # declare empty classifications list, this will be our list of how we are classifying our chars from user input, we will write to file at the end
+    # declare empty numpy array, we will use this to write to file later
+    # zero rows, enough cols to hold all image data
+    npaFlattenedImages = np.empty((0, RESIZED_IMAGE_WIDTH * RESIZED_IMAGE_HEIGHT))
+
     for file in os.listdir(path):
+
         strFilePath = os.path.join(path, file)
         imgTrainingNumbers = cv2.imread(strFilePath)          # read in testing numbers image
+
         if imgTrainingNumbers is None:                          # if image was not read successfully
             print ("error: image not read from file \n\n")        # print error message to std out
             os.system("pause")                                  # pause so user can see error message
@@ -45,7 +51,7 @@ def main():
 
                                     # declare empty numpy array, we will use this to write to file later
                                     # zero rows, enough cols to hold all image data
-        npaFlattenedImages =  np.empty((0, RESIZED_IMAGE_WIDTH * RESIZED_IMAGE_HEIGHT))
+
 
                                         # possible chars we are interested in are digits 0 through 9, put these in list intValidChars
         intValidChars = [ord('0'), ord('1'), ord('2'), ord('3'), ord('4'), ord('5'), ord('6'), ord('7'), ord('8'), ord('9'),
@@ -87,7 +93,6 @@ def main():
                 # end if
             # end if
         # end for
-        count += 1
     # end for
     fltClassifications = np.array(intClassifications, np.float32)                   # convert classifications list of ints to numpy array of floats
     npaClassifications = fltClassifications.reshape((fltClassifications.size, 1))   # flatten numpy array of floats to 1d so we can write to file later
