@@ -32,21 +32,28 @@ if (not os.environ.get('PYTHONHTTPSVERIFY', '') and
 #####################################################################################################
 
 def main():
-    blnKNNTrainingSuccessful = DetectChars.loadKNNDataAndTrainKNN()  # attempt KNN training
-
-    if blnKNNTrainingSuccessful == False:  # if KNN training was not successful
-        print("\nerror: KNN training was not successful\n")  # show error message
-        return  # and exit program
+    isClassificationFileExists = os.path.isfile("./classifications.txt")
+    isFlattenedImagesFileExists = os.path.isfile("./flattened_images.txt")
+    if (isClassificationFileExists and isFlattenedImagesFileExists) is False:
+        isDataGenerated = DetectChars.generateData('E:/Repos/License Plate Recognizer/train20X20')
+        if isDataGenerated == False:
+            print("\nerror: generating data was not successful\n")  # show error message
+            return  # and exit program
     # end if
-
-    # fromIPCAM()
-    fromLocalPath('E:/Repos/License Plate Recognizer/testimages/23.png')
-    # fromLPDatasetAndSaveXLS("E:/Repos/License Plate Recognizer/LPs")
-
-    cv2.waitKey(0)  # hold windows open until user presses a key
+    # blnKNNTrainingSuccessful = DetectChars.loadKNNDataAndTrainKNN()  # attempt KNN training
+    #
+    # if blnKNNTrainingSuccessful == False:  # if KNN training was not successful
+    #     print("\nerror: KNN training was not successful\n")  # show error message
+    #     return  # and exit program
+    # # end if
+    #
+    # # fromIPCAM()
+    # fromLocalPath('E:/Repos/License Plate Recognizer/testimages/23.png')
+    # # fromLPDatasetAndSaveXLS("E:/Repos/License Plate Recognizer/LPs")
+    #
+    # cv2.waitKey(0)  # hold windows open until user presses a key
     return
 # end main
-
 
 ####################################################################################################
 
@@ -155,11 +162,6 @@ def fromLPDatasetAndSaveXLS(path):
     intXLSCounter = 0
     strDetectedLP = ""
     listlicensePlateSamples = readLPImagePaths(path)
-    blnKNNTrainingSuccessful = DetectChars.loadKNNDataAndTrainKNN()         # attempt KNN training
-
-    if blnKNNTrainingSuccessful == False:                               # if KNN training was not successful
-        print("\nerror: KNN training was not successful\n")  # show error message
-        return                                                          # and exit program
 
     for imgLP in listlicensePlateSamples:
         imgOriginalScene = cv2.imread(imgLP)  # open image
@@ -198,7 +200,9 @@ def fromLocalPath(path):
         os.system("pause")  # pause so user can see error message
         return  # and exit program
     # end if
-
+    imgOriginalScene = adjust(imgOriginalScene,400)
+    cv2.imshow("adjust", imgOriginalScene)
+    cv2.waitKey(0)
     listOfPossiblePlates = DetectPlates.detectPlatesInScene(imgOriginalScene)  # detect plates
 
     listOfPossiblePlates = DetectChars.detectCharsInPlates(listOfPossiblePlates)  # detect chars in plates
@@ -238,6 +242,13 @@ def fromLocalPath(path):
     # end if else
 #end function
 
+#########################################################################################################################
+def adjust(square, percent = 75):
+    width = int(square.shape[1] * percent / 100)
+    height = int(square.shape[0] * percent / 100)
+    size = (width, height)
+    return cv2.resize(square, size, interpolation= cv2.INTER_AREA)
+# end function
 
 if __name__ == "__main__":
     main()
