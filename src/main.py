@@ -1,11 +1,6 @@
 # Main.py
-
 import cv2
 import numpy as np
-from xlwt import Workbook
-
-
-url = "https://10.0.10.51:8080/shot.jpg"
 
 import DetectChars
 import DetectPlates
@@ -23,6 +18,9 @@ showSteps = False
 
 import urllib.request as urlreq
 import os, ssl
+from xlwt import Workbook
+
+url = "https://10.0.10.52:8080/shot.jpg"
 
 PYTHONHTTPVERIFY = 0
 if (not os.environ.get('PYTHONHTTPSVERIFY', '') and
@@ -32,6 +30,18 @@ if (not os.environ.get('PYTHONHTTPSVERIFY', '') and
 #####################################################################################################
 
 def main():
+
+    isClassificationFileExists = os.path.isfile("E:/Repos/License Plate Recognizer/dataset/classifications.txt")
+    isFlattenedImagesFileExists = os.path.isfile("E:/Repos/License Plate Recognizer/dataset/flattened_images.txt")
+
+    if (isClassificationFileExists and isFlattenedImagesFileExists) is False:
+        isDataGenerated = DetectChars.generateData("E:\Repos\License Plate Recognizer\extra\images")
+        if isDataGenerated == False:
+            print("\nerror: generating data was not successful\n")  # show error message
+            return  # and exit program
+        #end if
+    #end if
+
     blnKNNTrainingSuccessful = DetectChars.loadKNNDataAndTrainKNN()  # attempt KNN training
 
     if blnKNNTrainingSuccessful == False:  # if KNN training was not successful
@@ -39,14 +49,14 @@ def main():
         return  # and exit program
     # end if
 
+    # fromWebCam()
     # fromIPCAM()
     fromLocalPath('E:/Repos/License Plate Recognizer/testimages/23.png')
     # fromLPDatasetAndSaveXLS("E:/Repos/License Plate Recognizer/LPs")
-
+    # fromLPDatasetAndSaveXLS("E:/Repos/License Plate Recognizer/testimages")
     cv2.waitKey(0)  # hold windows open until user presses a key
     return
 # end main
-
 
 ####################################################################################################
 
@@ -111,6 +121,43 @@ def writeLicensePlateCharsOnImage(imgOriginalScene, licPlate):
 # end function
 
 ###################################################################################################
+def fromWebCam():
+
+    cam = cv2.VideoCapture(0)
+
+    while True:
+        ret, imgOriginalScene = cam.read()
+
+        listOfPossiblePlates = DetectPlates.detectPlatesInScene(imgOriginalScene)  # detect plates
+
+        listOfPossiblePlates = DetectChars.detectCharsInPlates(listOfPossiblePlates)  # detect chars in plates
+
+        if len(listOfPossiblePlates) == 0:  # if no plates were found
+            print("\nno license plates were detected\n")  # inform user no plates were found
+        else:  # else
+            # if we get in here list of possible plates has at leat one plate
+
+            # sort the list of possible plates in DESCENDING order (most number of chars to least number of chars)
+            listOfPossiblePlates.sort(key=lambda possiblePlate: len(possiblePlate.strChars), reverse=True)
+
+            # suppose the plate with the most recognized chars (the first plate in sorted by string length descending order) is the actual plate
+            licPlate = listOfPossiblePlates[0]
+
+            if len(licPlate.strChars) == 0:  # if no chars were found in the plate
+                print("\nno characters were detected\n\n")  # show message
+            # end if
+
+            print(
+                "\nlicense plate read from image = " + licPlate.strChars + "\n")  # write license plate text to std out
+            print("----------------------------------------")
+
+        # end if else
+        if cv2.waitKey(25) & 0xFF == ord('q'):
+            break
+    #end while
+    cam.release()
+    cv2.destroyAllWindows()
+#end function
 
 # HATALI ##########################################################################################
 def fromIPCAM():
@@ -151,18 +198,15 @@ def fromIPCAM():
 
 def fromLPDatasetAndSaveXLS(path):
     wb = Workbook()
-    sheet = wb.add_sheet("Sheet 1")
+    sheet = wb.add_sheet("License Plates")
     intXLSCounter = 0
     strDetectedLP = ""
     listlicensePlateSamples = readLPImagePaths(path)
-    blnKNNTrainingSuccessful = DetectChars.loadKNNDataAndTrainKNN()         # attempt KNN training
-
-    if blnKNNTrainingSuccessful == False:                               # if KNN training was not successful
-        print("\nerror: KNN training was not successful\n")  # show error message
-        return                                                          # and exit program
 
     for imgLP in listlicensePlateSamples:
         imgOriginalScene = cv2.imread(imgLP)  # open image
+
+        imgOriginalScene = adjust(imgOriginalScene, 100)
         listOfPossiblePlates = DetectPlates.detectPlatesInScene(imgOriginalScene)  # detect plates
 
         listOfPossiblePlates = DetectChars.detectCharsInPlates(listOfPossiblePlates)  # detect chars in plates
@@ -199,57 +243,59 @@ def fromLocalPath(path):
         return  # and exit program
     # end if
 
-    listOfPossiblePlates = DetectPlates.detectPlatesInScene(imgOriginalScene)  # detect plates
+    imgOriginalScene = adjust(imgOriginalScene, 300)
+    cv2.imshow("adjust", imgOriginalScene)
+    cv2.waitKey(0)
 
-    listOfPossiblePlates = DetectChars.detectCharsInPlates(listOfPossiblePlates)  # detect chars in plates
+    listOfPossiblePlates = DetectPlates.detectPlatesInScene(imgOriginalScene)           # detect plates
 
-    cv2.imshow("imgOriginalScene", imgOriginalScene)  # show scene image
+    listOfPossiblePlates = DetectChars.detectCharsInPlates(listOfPossiblePlates)        # detect chars in plates
 
-    if len(listOfPossiblePlates) == 0:  # if no plates were found
+    cv2.imshow("imgOriginalScene", imgOriginalScene)            # show scene image
+
+    if len(listOfPossiblePlates) == 0:                          # if no plates were found
         print("\nno license plates were detected\n")  # inform user no plates were found
-    else:  # else
-        # if we get in here list of possible plates has at leat one plate
+    else:                                                       # else
+                # if we get in here list of possible plates has at leat one plate
 
-        # sort the list of possible plates in DESCENDING order (most number of chars to least number of chars)
-        listOfPossiblePlates.sort(key=lambda possiblePlate: len(possiblePlate.strChars), reverse=True)
+                # sort the list of possible plates in DESCENDING order (most number of chars to least number of chars)
+        listOfPossiblePlates.sort(key = lambda possiblePlate: len(possiblePlate.strChars), reverse = True)
 
-        # suppose the plate with the most recognized chars (the first plate in sorted by string length descending order) is the actual plate
+                # suppose the plate with the most recognized chars (the first plate in sorted by string length descending order) is the actual plate
         licPlate = listOfPossiblePlates[0]
 
-        cv2.imshow("imgPlate", licPlate.imgPlate)  # show crop of plate and threshold of plate
+        cv2.imshow("imgPlate", licPlate.imgPlate)           # show crop of plate and threshold of plate
         cv2.imshow("imgThresh", licPlate.imgThresh)
 
-        if len(licPlate.strChars) == 0:  # if no chars were found in the plate
+        if len(licPlate.strChars) == 0:                     # if no chars were found in the plate
             print("\nno characters were detected\n\n")  # show message
-            return  # and exit program
+            return                                          # and exit program
         # end if
 
-        drawRedRectangleAroundPlate(imgOriginalScene, licPlate)  # draw red rectangle around plate
+        drawRedRectangleAroundPlate(imgOriginalScene, licPlate)             # draw red rectangle around plate
 
         print("\nlicense plate read from image = " + licPlate.strChars + "\n")  # write license plate text to std out
         print("----------------------------------------")
 
-        writeLicensePlateCharsOnImage(imgOriginalScene, licPlate)  # write license plate text on the image
+        writeLicensePlateCharsOnImage(imgOriginalScene, licPlate)           # write license plate text on the image
 
-        cv2.imshow("imgOriginalScene", imgOriginalScene)  # re-show scene image
-
-        cv2.imwrite("imgOriginalScene.png", imgOriginalScene)  # write image out to file
+        cv2.imshow("imgOriginalScene", imgOriginalScene)                # re-show scene image
 
     # end if else
+
+    cv2.waitKey(0)					# hold windows open until user presses a key
 #end function
 
+#########################################################################################################################
+def adjust(square, percent = 75):
+    width = int(square.shape[1] * percent / 100)
+    height = int(square.shape[0] * percent / 100)
+    size = (width, height)
+    return cv2.resize(square, size, interpolation= cv2.INTER_AREA)
+# end function
 
 if __name__ == "__main__":
     main()
-
-
-
-
-
-
-
-
-
 
 
 

@@ -1,15 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="BookmarkManager">
+    <bookmark url="file://$PROJECT_DIR$/src/Main.py" line="169" />
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="44a74267-6f90-483e-87dd-3e6e905dfbd7" name="Default Changelist" comment="v1.0.0">
-      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/DetLP.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/EditFrame.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/DetectPlates.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/DetectPlates.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/PossibleChar.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/PossibleChar.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/PossibleLP.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/detCh.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/PossiblePlate.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/PossiblePlate.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Preprocess.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/Preprocess.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/classifications.txt" beforeDir="false" afterPath="$PROJECT_DIR$/src/classifications.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/flattened_images.txt" beforeDir="false" afterPath="$PROJECT_DIR$/src/flattened_images.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/imgOriginalScene.png" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/results.xls" beforeDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -36,11 +41,16 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/Main.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="140">
-              <caret line="116" column="15" lean-forward="true" selection-start-line="116" selection-start-column="15" selection-end-line="116" selection-end-column="15" />
+            <state relative-caret-position="553">
+              <caret line="245" column="50" selection-start-line="245" selection-start-column="50" selection-end-line="245" selection-end-column="50" />
               <folding>
-                <element signature="e#11#21#0" expanded="true" />
-                <element signature="e#9450#11510#0" />
+                <element signature="e#10#20#0" expanded="true" />
+                <element signature="e#2218#2488#0" />
+                <element signature="e#2656#3176#0" />
+                <element signature="e#3360#5885#0" />
+                <element signature="e#6025#7533#0" />
+                <element signature="e#7670#9271#0" />
+                <element signature="e#9326#10909#0" />
               </folding>
             </state>
           </provider>
@@ -49,8 +59,14 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/DetectPlates.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-3089">
-              <caret line="8" column="17" selection-start-line="8" selection-start-column="7" selection-end-line="8" selection-end-column="17" />
+            <state relative-caret-position="663">
+              <caret line="220" selection-start-line="220" selection-end-line="220" />
+              <folding>
+                <element signature="e#19#29#0" expanded="true" />
+                <element signature="e#482#5488#0" />
+                <element signature="e#5650#7321#0" />
+                <element signature="e#7495#10120#0" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -58,33 +74,22 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/DetectChars.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="165">
-              <caret line="433" column="34" selection-start-line="433" selection-start-column="28" selection-end-line="433" selection-end-column="34" />
-              <folding>
-                <element signature="e#17#26#0" expanded="true" />
-                <element signature="e#2794#10851#0" />
-              </folding>
+            <state relative-caret-position="7055">
+              <caret line="424" column="56" selection-start-line="424" selection-start-column="56" selection-end-line="424" selection-end-column="56" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Preprocess.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="119">
-              <caret line="10" column="14" selection-start-line="10" selection-start-column="4" selection-end-line="10" selection-end-column="14" />
-              <folding>
-                <element signature="e#17#27#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
+        <entry file="file://$PROJECT_DIR$/testimages/32.jpg">
+          <provider selected="true" editor-type-id="images" />
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/PossibleChar.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="68">
-              <caret line="4" selection-start-line="4" selection-end-line="4" />
+            <state relative-caret-position="51">
+              <caret line="5" selection-start-line="5" selection-end-line="5" />
               <folding>
                 <element signature="e#19#29#0" expanded="true" />
               </folding>
@@ -93,19 +98,28 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../OpenCV_3_License_Plate_Recognition_Python/Main.py">
+        <entry file="file://$PROJECT_DIR$/../OpenCV Tutorials/main.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="272">
-              <caret line="75" column="4" selection-start-line="75" selection-start-column="6" selection-end-line="129" />
+            <state relative-caret-position="578">
+              <caret line="34" column="1" selection-start-line="34" selection-start-column="1" selection-end-line="34" selection-end-column="1" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../OpenCV Tutorials/main.py">
+        <entry file="file://$PROJECT_DIR$/src/flattened_images.txt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="578">
-              <caret line="34" column="1" lean-forward="true" selection-start-line="34" selection-start-column="1" selection-end-line="34" selection-end-column="1" />
+            <state>
+              <caret column="66" selection-start-column="66" selection-end-column="66" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/classifications.txt">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="3043">
+              <caret line="323" column="24" selection-start-line="323" selection-start-column="24" selection-end-line="323" selection-end-column="24" />
             </state>
           </provider>
         </entry>
@@ -132,8 +146,12 @@
       <find>possiblePlate</find>
       <find>matchingChar</find>
       <find>extractPlate</find>
-      <find>thresh</find>
       <find>preprocess</find>
+      <find>thresh</find>
+      <find>findN</find>
+      <find>RESIZED_CHAR_IMAGE_HEIGHT</find>
+      <find>RESIZED_IMAGE_WIDTH</find>
+      <find>kNearest</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -147,24 +165,28 @@
         <option value="$PROJECT_DIR$/LPR.py" />
         <option value="$PROJECT_DIR$/main.py" />
         <option value="$PROJECT_DIR$/src/detCh.py" />
-        <option value="$PROJECT_DIR$/src/main.py" />
         <option value="$PROJECT_DIR$/src/EditFrame.py" />
         <option value="$PROJECT_DIR$/src/PossibleLP.py" />
         <option value="$PROJECT_DIR$/src/DetLP.py" />
         <option value="$PROJECT_DIR$/src/DetCh.py" />
         <option value="$PROJECT_DIR$/src/PossiblePlate.py" />
-        <option value="$PROJECT_DIR$/src/DetectPlates.py" />
         <option value="$PROJECT_DIR$/src/PossibleChar.py" />
         <option value="$PROJECT_DIR$/src/Preprocess.py" />
+        <option value="$PROJECT_DIR$/extra/generateData.py" />
+        <option value="$PROJECT_DIR$/src/classifications.txt" />
+        <option value="$PROJECT_DIR$/src/main.py" />
+        <option value="$PROJECT_DIR$/src/DetectPlates.py" />
+        <option value="$PROJECT_DIR$/dataset/generateData.py" />
+        <option value="$PROJECT_DIR$/src/DetectChars.py" />
         <option value="$PROJECT_DIR$/src/Main.py" />
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds">
-    <option name="x" value="-10" />
-    <option name="y" value="-10" />
-    <option name="width" value="1940" />
-    <option name="height" value="1060" />
+  <component name="ProjectFrameBounds" extendedState="6">
+    <option name="x" value="2734" />
+    <option name="y" value="-12" />
+    <option name="width" value="1294" />
+    <option name="height" value="1417" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
@@ -172,7 +194,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -183,18 +204,24 @@
             <path>
               <item name="License Plate Recognizer" type="b2602c69:ProjectViewProjectNode" />
               <item name="License Plate Recognizer" type="462c0819:PsiDirectoryNode" />
+              <item name="dataset" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="License Plate Recognizer" type="b2602c69:ProjectViewProjectNode" />
+              <item name="License Plate Recognizer" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../license-plate-recognition3" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../OpenCV_3_License_Plate_Recognition_Python" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
@@ -355,6 +382,28 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <configuration name="generatedData" type="PythonConfigurationType" factoryName="Python">
+      <module name="License Plate Recognizer" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="E:\Repos\License Plate Recognizer\venv\Scripts\python.exe" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/extra" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/extra/generateData.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="mainTutorials" type="PythonConfigurationType" factoryName="Python">
       <module name="License Plate Recognizer" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -379,6 +428,7 @@
     </configuration>
     <list>
       <item itemvalue="Python.Main" />
+      <item itemvalue="Python.generatedData" />
       <item itemvalue="Python.DetectChars" />
       <item itemvalue="Python.DetectPlates" />
       <item itemvalue="Python.PossibleChar" />
@@ -425,7 +475,14 @@
       <workItem from="1563736747631" duration="5472000" />
       <workItem from="1563773782729" duration="886000" />
       <workItem from="1563774710513" duration="3264000" />
-      <workItem from="1563778097915" duration="4356000" />
+      <workItem from="1563778097915" duration="11483000" />
+      <workItem from="1563820139103" duration="9698000" />
+      <workItem from="1563858560660" duration="6601000" />
+      <workItem from="1563875811794" duration="4120000" />
+      <workItem from="1563906490459" duration="4800000" />
+      <workItem from="1563912125918" duration="1139000" />
+      <workItem from="1563951029888" duration="8807000" />
+      <workItem from="1563966611768" duration="2056000" />
     </task>
     <task id="LOCAL-00001" summary="Gray Image to Binary Image">
       <created>1562839597991</created>
@@ -452,7 +509,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="185047000" />
+    <option name="totallyTimeSpent" value="229395000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -464,33 +521,58 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1552" height="848" extended-state="0" />
+    <frame x="1912" y="-8" width="2576" height="1426" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.18206158" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.13473769" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32946634" />
-      <window_info active="true" anchor="bottom" id="Run" internal_type="SLIDING" order="2" sideWeight="0.905496" type="SLIDING" visible="true" weight="0.25662482" />
+      <window_info active="true" anchor="bottom" id="Run" internal_type="SLIDING" order="2" sideWeight="0.905496" type="SLIDING" visible="true" weight="0.20185615" />
       <window_info anchor="bottom" id="Cvs" order="3" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="4" weight="0.4" />
-      <window_info anchor="bottom" id="TODO" order="5" sideWeight="0.49597856" weight="0.32775453" />
+      <window_info anchor="bottom" id="TODO" order="5" sideWeight="0.49597856" weight="0.58995813" />
       <window_info anchor="bottom" id="Docker" order="6" show_stripe_button="false" />
       <window_info anchor="bottom" id="Version Control" order="7" sideWeight="0.4966488" weight="0.32914925" />
       <window_info anchor="bottom" id="Database Changes" order="8" />
-      <window_info anchor="bottom" id="Event Log" order="9" sideWeight="0.36144578" side_tool="true" visible="true" weight="0.19944212" />
-      <window_info anchor="bottom" id="Terminal" order="10" sideWeight="0.6385542" visible="true" weight="0.19944212" />
+      <window_info anchor="bottom" id="Event Log" order="9" sideWeight="0.103217155" side_tool="true" weight="0.1380753" />
+      <window_info anchor="bottom" id="Terminal" order="10" sideWeight="0.6375321" weight="0.090655506" />
       <window_info anchor="bottom" id="Python Console" order="11" sideWeight="0.4966488" weight="0.32775453" />
-      <window_info anchor="bottom" id="Debug" order="12" sideWeight="0.8987936" weight="0.9428173" />
+      <window_info anchor="bottom" id="Debug" order="12" sideWeight="0.8967828" visible="true" weight="0.44702244" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
-      <window_info anchor="right" id="SciView" order="3" visible="true" weight="0.089022756" />
-      <window_info anchor="right" id="R Graphics" order="4" weight="0.32969153" />
-      <window_info anchor="right" id="R Packages" order="5" weight="0.32969153" />
+      <window_info anchor="right" id="SciView" order="3" weight="0.054289546" />
+      <window_info anchor="right" id="R Packages" order="4" weight="0.02010724" />
+      <window_info anchor="right" id="R Graphics" order="5" weight="0.32969153" />
       <window_info anchor="right" id="Database" order="6" weight="0.32969153" />
     </layout>
+    <layout-to-restore>
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.02010724" />
+      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
+      <window_info id="Favorites" order="2" side_tool="true" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.32946634" />
+      <window_info anchor="bottom" id="Run" internal_type="SLIDING" order="2" sideWeight="0.905496" type="SLIDING" weight="0.23570432" />
+      <window_info anchor="bottom" id="Cvs" order="3" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="4" weight="0.4" />
+      <window_info anchor="bottom" id="TODO" order="5" sideWeight="0.49597856" weight="0.58995813" />
+      <window_info anchor="bottom" id="Docker" order="6" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Version Control" order="7" sideWeight="0.4966488" weight="0.32914925" />
+      <window_info anchor="bottom" id="Database Changes" order="8" />
+      <window_info anchor="bottom" id="Event Log" order="9" sideWeight="0.103217155" side_tool="true" weight="0.1380753" />
+      <window_info anchor="bottom" id="Terminal" order="10" sideWeight="0.6375321" weight="0.090655506" />
+      <window_info anchor="bottom" id="Python Console" order="11" sideWeight="0.4966488" weight="0.32775453" />
+      <window_info anchor="bottom" id="Debug" order="12" sideWeight="0.8967828" visible="true" weight="0.041841004" />
+      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info anchor="right" id="SciView" order="3" visible="true" weight="0.054289546" />
+      <window_info anchor="right" id="R Packages" order="4" weight="0.02010724" />
+      <window_info anchor="right" id="R Graphics" order="5" weight="0.32969153" />
+      <window_info anchor="right" id="Database" order="6" weight="0.32969153" />
+    </layout-to-restore>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
@@ -511,10 +593,19 @@
     <MESSAGE value="v1.0.0" />
     <option name="LAST_COMMIT_MESSAGE" value="v1.0.0" />
   </component>
+  <component name="XDebuggerManager">
+    <watches-manager>
+      <configuration name="PythonConfigurationType">
+        <watch expression="npaContours" />
+      </configuration>
+    </watches-manager>
+  </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/License_Plate_Recognizer$mainTutorials.coverage" NAME="mainTutorials Coverage Results" MODIFIED="1563266698950" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/../OpenCV Tutorials" />
+    <SUITE FILE_PATH="coverage/License_Plate_Recognizer$generatedData.coverage" NAME="generatedData Coverage Results" MODIFIED="1563909533687" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/extra" />
     <SUITE FILE_PATH="coverage/License_Plate_Recognizer$main.coverage" NAME="main Coverage Results" MODIFIED="1563526321098" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/License_Plate_Recognizer$Main.coverage" NAME="Main Coverage Results" MODIFIED="1563785684691" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
+    <SUITE FILE_PATH="coverage/License_Plate_Recognizer$DetectChars.coverage" NAME="DetectChars Coverage Results" MODIFIED="1563821782198" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
+    <SUITE FILE_PATH="coverage/License_Plate_Recognizer$Main.coverage" NAME="Main Coverage Results" MODIFIED="1563968496993" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
     <SUITE FILE_PATH="coverage/License_Plate_Recognizer$main2.coverage" NAME="main2 Coverage Results" MODIFIED="1563666796752" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
   </component>
   <component name="editorHistoryManager">
@@ -611,44 +702,27 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/PossibleChar.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="4" selection-start-line="4" selection-end-line="4" />
-          <folding>
-            <element signature="e#19#29#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
+    <entry file="file://$PROJECT_DIR$/src/imgOriginalScene.png">
+      <provider selected="true" editor-type-id="images" />
     </entry>
     <entry file="file://$PROJECT_DIR$/../OpenCV_3_License_Plate_Recognition_Python/Main.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="272">
+        <state relative-caret-position="1156">
           <caret line="75" column="4" selection-start-line="75" selection-start-column="6" selection-end-line="129" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../OpenCV Tutorials/main.py">
+    <entry file="file://D:/Python/Python37-32/Lib/site-packages/xlwt/Workbook.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="578">
-          <caret line="34" column="1" lean-forward="true" selection-start-line="34" selection-start-column="1" selection-end-line="34" selection-end-column="1" />
+        <state relative-caret-position="539">
+          <caret line="709" selection-start-line="709" selection-end-line="709" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/DetectChars.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="165">
-          <caret line="433" column="34" selection-start-line="433" selection-start-column="28" selection-end-line="433" selection-end-column="34" />
-          <folding>
-            <element signature="e#17#26#0" expanded="true" />
-            <element signature="e#2794#10851#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/extra/generateData.py" />
     <entry file="file://$PROJECT_DIR$/src/Preprocess.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="119">
+        <state relative-caret-position="170">
           <caret line="10" column="14" selection-start-line="10" selection-start-column="4" selection-end-line="10" selection-end-column="14" />
           <folding>
             <element signature="e#17#27#0" expanded="true" />
@@ -656,20 +730,84 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/extra/flattened_images.txt" />
+    <entry file="file://$PROJECT_DIR$/extra/classifications.txt" />
+    <entry file="file://$PROJECT_DIR$/dataset/generateData.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="510">
+          <caret line="30" column="16" lean-forward="true" selection-start-line="30" selection-start-column="16" selection-end-line="30" selection-end-column="16" />
+          <folding>
+            <element signature="e#1#11#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/testimages/32.jpg">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/PossibleChar.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="51">
+          <caret line="5" selection-start-line="5" selection-end-line="5" />
+          <folding>
+            <element signature="e#19#29#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../OpenCV Tutorials/main.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="578">
+          <caret line="34" column="1" selection-start-line="34" selection-start-column="1" selection-end-line="34" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/flattened_images.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="66" selection-start-column="66" selection-end-column="66" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/classifications.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3043">
+          <caret line="323" column="24" selection-start-line="323" selection-start-column="24" selection-end-line="323" selection-end-column="24" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/DetectChars.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="7055">
+          <caret line="424" column="56" selection-start-line="424" selection-start-column="56" selection-end-line="424" selection-end-column="56" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/DetectPlates.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-3089">
-          <caret line="8" column="17" selection-start-line="8" selection-start-column="7" selection-end-line="8" selection-end-column="17" />
+        <state relative-caret-position="663">
+          <caret line="220" selection-start-line="220" selection-end-line="220" />
+          <folding>
+            <element signature="e#19#29#0" expanded="true" />
+            <element signature="e#482#5488#0" />
+            <element signature="e#5650#7321#0" />
+            <element signature="e#7495#10120#0" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Main.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="140">
-          <caret line="116" column="15" lean-forward="true" selection-start-line="116" selection-start-column="15" selection-end-line="116" selection-end-column="15" />
+        <state relative-caret-position="553">
+          <caret line="245" column="50" selection-start-line="245" selection-start-column="50" selection-end-line="245" selection-end-column="50" />
           <folding>
-            <element signature="e#11#21#0" expanded="true" />
-            <element signature="e#9450#11510#0" />
+            <element signature="e#10#20#0" expanded="true" />
+            <element signature="e#2218#2488#0" />
+            <element signature="e#2656#3176#0" />
+            <element signature="e#3360#5885#0" />
+            <element signature="e#6025#7533#0" />
+            <element signature="e#7670#9271#0" />
+            <element signature="e#9326#10909#0" />
           </folding>
         </state>
       </provider>
