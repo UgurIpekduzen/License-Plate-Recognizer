@@ -31,11 +31,11 @@ if (not os.environ.get('PYTHONHTTPSVERIFY', '') and
 
 def main():
 
-    isClassificationFileExists = os.path.isfile("E:/Repos/License Plate Recognizer/dataset/classifications.txt")
-    isFlattenedImagesFileExists = os.path.isfile("E:/Repos/License Plate Recognizer/dataset/flattened_images.txt")
+    isClassificationFileExists = os.path.isfile("E:/Repos/License-Plate-Recognizer-GitHub/dataset/classifications.txt")
+    isFlattenedImagesFileExists = os.path.isfile("E:/Repos/License-Plate-Recognizer-GitHub/dataset/flattened_images.txt")
 
     if (isClassificationFileExists and isFlattenedImagesFileExists) is False:
-        isDataGenerated = DetectChars.generateData("E:\Repos\License Plate Recognizer\extra\images")
+        isDataGenerated = DetectChars.generateData("E:/Repos/License-Plate-Recognizer-GitHub/dataset/characters")
         if isDataGenerated == False:
             print("\nerror: generating data was not successful\n")  # show error message
             return  # and exit program
@@ -49,11 +49,10 @@ def main():
         return  # and exit program
     # end if
 
-    # fromWebCam()
+    #fromWebCam()
     # fromIPCAM()
-    fromLocalPath('E:/Repos/License Plate Recognizer/testimages/23.png')
-    # fromLPDatasetAndSaveXLS("E:/Repos/License Plate Recognizer/LPs")
-    # fromLPDatasetAndSaveXLS("E:/Repos/License Plate Recognizer/testimages")
+    # fromLocalPath('E:/Repos/License-Plate-Recognizer-GitHub/testimages/31.jpg')
+    fromLPDatasetAndSaveXLS("E:/Repos/License-Plate-Recognizer-GitHub/LPs")
     cv2.waitKey(0)  # hold windows open until user presses a key
     return
 # end main
@@ -243,7 +242,7 @@ def fromLocalPath(path):
         return  # and exit program
     # end if
 
-    imgOriginalScene = adjust(imgOriginalScene, 300)
+    imgOriginalScene = adjust(imgOriginalScene, 280)
     cv2.imshow("adjust", imgOriginalScene)
     cv2.waitKey(0)
 

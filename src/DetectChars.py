@@ -76,8 +76,6 @@ def generateData(path):
                                           11,                                   # size of a pixel neighborhood used to calculate threshold value
                                           2)                                    # constant subtracted from the mean or weighted mean
 
-        cv2.imshow("imgThresh", imgThresh)      # show threshold image for reference
-
         imgThreshCopy = imgThresh.copy()        # make a copy of the thresh image, this in necessary b/c findContours modifies the image
 
         npaContours, npaHierarchy = cv2.findContours(imgThreshCopy,        # input image, make sure to use a copy since the function will modify this image in the course of finding contours
@@ -93,7 +91,7 @@ def generateData(path):
                          ord('A'), ord('B'), ord('C'), ord('D'), ord('E'), ord('F'), ord('G'), ord('H'), ord('I'), ord('J'),
                          ord('K'), ord('L'), ord('M'), ord('N'), ord('O'), ord('P'), ord('Q'), ord('R'), ord('S'), ord('T'),
                          ord('U'), ord('V'), ord('W'), ord('X'), ord('Y'), ord('Z')]
-        # listBeforePressedIntChars = []
+
         for npaContour in npaContours:                          # for each contour
             if cv2.contourArea(npaContour) > MIN_CONTOUR_AREA:          # if contour is big enough to consider
                 [intX, intY, intW, intH] = cv2.boundingRect(npaContour)         # get and break out bounding rect
@@ -117,8 +115,6 @@ def generateData(path):
                 if intChar == 27:                   # if esc key was pressed
                     sys.exit()                      # exit program
                 elif intChar in intValidChars:      # else if the char is in the list of chars we are looking for . . .
-                    # if intChar in listBeforePressedIntChars:
-                    #     ""
 
                     print("Basılan karakter: " + chr(intChar))
                     intClassifications.append(intChar)                                                # append classification char to integer list of chars (we will convert to float later before writing to file)
@@ -535,11 +531,3 @@ def recognizeCharsInPlate(imgThresh, listOfMatchingChars):
 
     return strChars
 # end function
-
-
-
-
-
-
-
-
