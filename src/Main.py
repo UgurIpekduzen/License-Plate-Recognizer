@@ -1,10 +1,12 @@
 # Main.py
 import cv2
 import numpy as np
+import re
+import time
 
 import DetectChars
 import DetectPlates
-
+import Preprocess
 # module level variables ##########################################################################
 SCALAR_BLACK = (0.0, 0.0, 0.0)
 SCALAR_WHITE = (255.0, 255.0, 255.0)
@@ -49,10 +51,10 @@ def main():
         return  # and exit program
     # end if
 
-    #fromWebCam()
+    fromWebCam()
     # fromIPCAM()
-    # fromLocalPath('E:/Repos/License-Plate-Recognizer-GitHub/testimages/31.jpg')
-    fromLPDatasetAndSaveXLS("E:/Repos/License-Plate-Recognizer-GitHub/LPs")
+    # fromLocalPath('E:/Repos/License-Plate-Recognizer-GitHub/testimages/32.jpg')
+    # fromLPDatasetAndSaveXLS("E:/Repos/License-Plate-Recognizer-GitHub/LPs")
     cv2.waitKey(0)  # hold windows open until user presses a key
     return
 # end main
@@ -127,32 +129,42 @@ def fromWebCam():
     while True:
         ret, imgOriginalScene = cam.read()
 
-        listOfPossiblePlates = DetectPlates.detectPlatesInScene(imgOriginalScene)  # detect plates
+        for zoomRate in range(100,400, 50):
 
-        listOfPossiblePlates = DetectChars.detectCharsInPlates(listOfPossiblePlates)  # detect chars in plates
+            imgOriginalScene = Preprocess.adjust(imgOriginalScene, zoomRate)
+            listOfPossiblePlates = DetectPlates.detectPlatesInScene(imgOriginalScene)  # detect plates
 
-        if len(listOfPossiblePlates) == 0:  # if no plates were found
-            print("\nno license plates were detected\n")  # inform user no plates were found
-        else:  # else
-            # if we get in here list of possible plates has at leat one plate
+            listOfPossiblePlates = DetectChars.detectCharsInPlates(listOfPossiblePlates)  # detect chars in plates
 
-            # sort the list of possible plates in DESCENDING order (most number of chars to least number of chars)
-            listOfPossiblePlates.sort(key=lambda possiblePlate: len(possiblePlate.strChars), reverse=True)
+            if len(listOfPossiblePlates) == 0:  # if no plates were found
+                print("\nno license plates were detected\n")  # inform user no plates were found
+                break
+            else:  # else
+                # if we get in here list of possible plates has at least one plate
 
-            # suppose the plate with the most recognized chars (the first plate in sorted by string length descending order) is the actual plate
-            licPlate = listOfPossiblePlates[0]
+                # sort the list of possible plates in DESCENDING order (most number of chars to least number of chars)
+                listOfPossiblePlates.sort(key=lambda possiblePlate: len(possiblePlate.strChars), reverse=True)
 
-            if len(licPlate.strChars) == 0:  # if no chars were found in the plate
-                print("\nno characters were detected\n\n")  # show message
-            # end if
+                # suppose the plate with the most recognized chars (the first plate in sorted by string length descending order) is the actual plate
+                licPlate = listOfPossiblePlates[0]
 
-            print(
-                "\nlicense plate read from image = " + licPlate.strChars + "\n")  # write license plate text to std out
-            print("----------------------------------------")
+                if len(licPlate.strChars) == 0:  # if no chars were found in the plate
+                    print("\nno characters were detected\n\n")  # show message
+                    break
+                # end if
+                else:
+                    matchObj = re.search("^(0[1-9]|[1-7][0-9]|8[01])(([A-Z])(\d{4,5})|([A-Z]{2})(\d{3,4})|([A-Z]{3})(\d{2}))$", licPlate.strChars)
+                    # print("is Match = " + str(matchObj))
+                    if (matchObj):
+                        print("\nlicense plate read from image = " + licPlate.strChars + "\n\n")  # write license plate text to std out
+                        time.sleep(1)
+                        break
+                    else:
+                        continue
 
-        # end if else
-        if cv2.waitKey(25) & 0xFF == ord('q'):
-            break
+        # # end if else
+        # if cv2.waitKey(25) & 0xFF == ord('q'):
+        #     break
     #end while
     cam.release()
     cv2.destroyAllWindows()
@@ -164,33 +176,45 @@ def fromIPCAM():
         imgResp = urlreq.urlopen(url)
         imgNp = np.array(bytearray(imgResp.read()), dtype=np.uint8)
         imgOriginalScene = cv2.imdecode(imgNp, -1)
-        cv2.imshow('AndroidCam', imgOriginalScene)
+        for zoomRate in range(100, 400, 50):
 
-        listOfPossiblePlates = DetectPlates.detectPlatesInScene(imgOriginalScene)  # detect plates
+            imgOriginalScene = Preprocess.adjust(imgOriginalScene, zoomRate)
+            listOfPossiblePlates = DetectPlates.detectPlatesInScene(imgOriginalScene)  # detect plates
 
-        listOfPossiblePlates = DetectChars.detectCharsInPlates(listOfPossiblePlates)  # detect chars in plates
+            listOfPossiblePlates = DetectChars.detectCharsInPlates(listOfPossiblePlates)  # detect chars in plates
 
-        if len(listOfPossiblePlates) == 0:  # if no plates were found
-            print("\nno license plates were detected\n")  # inform user no plates were found
-        else:  # else
-            # if we get in here list of possible plates has at leat one plate
+            if len(listOfPossiblePlates) == 0:  # if no plates were found
+                print("\nno license plates were detected\n")  # inform user no plates were found
+                break
+            else:  # else
+                # if we get in here list of possible plates has at least one plate
 
-            # sort the list of possible plates in DESCENDING order (most number of chars to least number of chars)
-            listOfPossiblePlates.sort(key=lambda possiblePlate: len(possiblePlate.strChars), reverse=True)
+                # sort the list of possible plates in DESCENDING order (most number of chars to least number of chars)
+                listOfPossiblePlates.sort(key=lambda possiblePlate: len(possiblePlate.strChars), reverse=True)
 
-            # suppose the plate with the most recognized chars (the first plate in sorted by string length descending order) is the actual plate
-            licPlate = listOfPossiblePlates[0]
+                # suppose the plate with the most recognized chars (the first plate in sorted by string length descending order) is the actual plate
+                licPlate = listOfPossiblePlates[0]
 
-            if len(licPlate.strChars) == 0:  # if no chars were found in the plate
-                print("\nno characters were detected\n\n")  # show message
-            # end if
-
-            print(
-                "\nlicense plate read from image = " + licPlate.strChars + "\n")  # write license plate text to std out
-            print("----------------------------------------")
-
-        # end if else
-
+                if len(licPlate.strChars) == 0:  # if no chars were found in the plate
+                    print("\nno characters were detected\n\n")  # show message
+                    break
+                # end if
+                else:
+                    matchObj = re.search(
+                        "^(0[1-9]|[1-7][0-9]|8[01])(([A-Z])(\d{4,5})|([A-Z]{2})(\d{3,4})|([A-Z]{3})(\d{2}))$",
+                        licPlate.strChars)
+                    # print("is Match = " + str(matchObj))
+                    if (matchObj):
+                        print(
+                            "\nlicense plate read from image = " + licPlate.strChars + "\n\n")  # write license plate text to std out
+                        time.sleep(1)
+                        break
+                    else:
+                        continue
+                    # end else
+                # end else
+            # end else
+        # end for
         cv2.waitKey(0)  # hold windows open until user presses a key
     #end while
 #end function
@@ -205,7 +229,7 @@ def fromLPDatasetAndSaveXLS(path):
     for imgLP in listlicensePlateSamples:
         imgOriginalScene = cv2.imread(imgLP)  # open image
 
-        imgOriginalScene = adjust(imgOriginalScene, 100)
+        imgOriginalScene = Preprocess.adjust(imgOriginalScene, 100)
         listOfPossiblePlates = DetectPlates.detectPlatesInScene(imgOriginalScene)  # detect plates
 
         listOfPossiblePlates = DetectChars.detectCharsInPlates(listOfPossiblePlates)  # detect chars in plates
@@ -242,7 +266,7 @@ def fromLocalPath(path):
         return  # and exit program
     # end if
 
-    imgOriginalScene = adjust(imgOriginalScene, 280)
+    imgOriginalScene = Preprocess.adjust(imgOriginalScene, 280)
     cv2.imshow("adjust", imgOriginalScene)
     cv2.waitKey(0)
 
@@ -286,12 +310,6 @@ def fromLocalPath(path):
 #end function
 
 #########################################################################################################################
-def adjust(square, percent = 75):
-    width = int(square.shape[1] * percent / 100)
-    height = int(square.shape[0] * percent / 100)
-    size = (width, height)
-    return cv2.resize(square, size, interpolation= cv2.INTER_AREA)
-# end function
 
 if __name__ == "__main__":
     main()

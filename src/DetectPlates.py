@@ -3,26 +3,27 @@
 import cv2
 import numpy as np
 import math
-import Main
 import random
 
 import Preprocess
 import DetectChars
 import PossiblePlate
 import PossibleChar
+import Main
 
 # module level variables ##########################################################################
 PLATE_WIDTH_PADDING_FACTOR = 1.3
 PLATE_HEIGHT_PADDING_FACTOR = 1.5
 
+
+# difference variable #############################################################################
+minDiff = 10000
+minSquareArea = 5000
+match = -1
 ###################################################################################################
 def detectPlatesInScene(imgOriginalScene):
     listOfPossiblePlates = []                   # this will be the return value
-
     height, width, numChannels = imgOriginalScene.shape
-
-    imgGrayscaleScene = np.zeros((height, width, 1), np.uint8)
-    imgThreshScene = np.zeros((height, width, 1), np.uint8)
     imgContours = np.zeros((height, width, 3), np.uint8)
 
     cv2.destroyAllWindows()
@@ -112,13 +113,37 @@ def detectPlatesInScene(imgOriginalScene):
             print("possible plate " + str(i) + ", click on any image and press a key to continue . . .")
 
             cv2.imshow("4b", listOfPossiblePlates[i].imgPlate)
+
+            # gray = cv2.cvtColor(listOfPossiblePlates[i].imgPlate, cv2.COLOR_BGR2GRAY)
+            # blurred = cv2.GaussianBlur(gray, (3, 3), 0)
+            #
+            # # Detecting Edges
+            # edges = Preprocess.autoCanny(blurred)
+            #
+            # # Contour Detection & checking for squares based on the square area
+            # contours, hierarchy = cv2.findContours(edges, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+            #
+            # for cnt in contours:
+            #     approx = cv2.approxPolyDP(cnt, 0.01 * cv2.arcLength(cnt, True), True)
+            #
+            #     if len(approx) == 4:
+            #         area = cv2.contourArea(approx)
+            #
+            #         if area > minSquareArea:
+            #             cv2.drawContours(imgOriginalScene, [approx], 0, (0, 0, 255), 2)
+            #             if Main.showSteps == True:
+            #                 cv2.imshow("orjframe", imgOriginalScene)
+            #                 cv2.waitKey(0)
+            #
+            #             warped = Preprocess.fourPointTransform(imgOriginalScene, listOfPossiblePlates[i].imgPlate, approx.reshape(4, 2))
+            #             listOfPossibleWarpedPlates.append(warped)
             cv2.waitKey(0)
         # end for
 
         print("\nplate detection complete, click on any image and press a key to begin char recognition . . .\n")
         cv2.waitKey(0)
     # end if # show steps #########################################################################
-
+    # return listOfPossibleWarpedPlates
     return listOfPossiblePlates
 # end function
 
