@@ -5,9 +5,11 @@ import numpy as np
 import math
 import random
 
+sys.path.append("E:/Repos/License-Plate-Recognizer-GitHub/src/data_processing")
 import GenerateAndTrainData
+sys.path.append("E:/Repos/License-Plate-Recognizer-GitHub/src/read_and edit_images")
 import EditImage
-sys.path.append("E:\Repos\License-Plate-Recognizer-GitHub\src\objects")
+sys.path.append("E:/Repos/License-Plate-Recognizer-GitHub/src/selectors")
 import PossibleChar
 
 

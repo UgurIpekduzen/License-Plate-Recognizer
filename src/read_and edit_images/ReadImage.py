@@ -4,8 +4,8 @@ import urllib.request as urlreq
 import os, ssl
 from xlwt import Workbook
 
-sys.path.append("E:\Repos\License-Plate-Recognizer-GitHub\src\objects")
 import EditImage
+sys.path.append("E:/Repos/License-Plate-Recognizer-GitHub/src/detection_functions")
 import DetectPlates
 import DetectChars
 

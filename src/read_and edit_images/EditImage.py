@@ -1,8 +1,9 @@
 # Preprocess.py
-
+import sys
 import cv2
 import numpy as np
 
+sys.path.append("E:/Repos/License-Plate-Recognizer-GitHub/src/constants")
 import Constant
 
 def preprocess(imgOriginal):

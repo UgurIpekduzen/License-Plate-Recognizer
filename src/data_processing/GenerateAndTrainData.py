@@ -3,117 +3,120 @@ import numpy as np
 import os
 import sys
 
+sys.path.append("E:/Repos/License-Plate-Recognizer-GitHub/src/constants")
 import Constant
 
 kNearest = cv2.ml.KNearest_create()
 
 def generateData(path):
-    intClassifications = []  # declare empty classifications list, this will be our list of how we are classifying our chars from user input, we will write to file at the end
-    # declare empty numpy array, we will use this to write to file later
-    # zero rows, enough cols to hold all image data
-    npaFlattenedImages = np.empty((0, Constant.RESIZED_IMAGE_WIDTH * Constant.RESIZED_IMAGE_HEIGHT))
+    intClassifications = []  # kullanıcı girdilerini tutan sınıflandırma listesi
 
-    for file in os.listdir(path):
+    isClassificationFileExists = os.path.isfile("E:/Repos/License-Plate-Recognizer-GitHub/src/data_processing/classifications.txt")
+    isFlattenedImagesFileExists = os.path.isfile("E:/Repos/License-Plate-Recognizer-GitHub/src/data_processing/flattened_images.txt")
 
-        strFilePath = os.path.join(path, file)
-        imgTrainingNumbers = cv2.imread(strFilePath)          # read in testing numbers image
+    if (isClassificationFileExists and isFlattenedImagesFileExists) is False:
 
-        if imgTrainingNumbers is None:                          # if image was not read successfully
-            print ("error: image not read from file \n\n")        # print error message to std out
-            os.system("pause")                                  # pause so user can see error message
-            return                                              # and exit function (which exits program)
-        # end if
+        npaFlattenedImages = np.empty((0, Constant.RESIZED_IMAGE_WIDTH * Constant.RESIZED_IMAGE_HEIGHT))
 
-        imgGray = cv2.cvtColor(imgTrainingNumbers, cv2.COLOR_BGR2GRAY)          # get grayscale image
-        imgBlurred = cv2.GaussianBlur(imgGray, (5,5), 0)                        # blur
+        for file in os.listdir(path):
 
-                                                            # filter image from grayscale to black and white
-        imgThresh = cv2.adaptiveThreshold(imgBlurred,                           # input image
-                                          255,                                  # make pixels that pass the threshold full white
-                                          cv2.ADAPTIVE_THRESH_GAUSSIAN_C,       # use gaussian rather than mean, seems to give better results
-                                          cv2.THRESH_BINARY_INV,                # invert so foreground will be white, background will be black
-                                          11,                                   # size of a pixel neighborhood used to calculate threshold value
-                                          2)                                    # constant subtracted from the mean or weighted mean
+            strFilePath = os.path.join(path, file)
+            imgTrainingNumbers = cv2.imread(strFilePath)          #dosya dizinin içindeki karakter setlerini sırayla okur.
 
-        imgThreshCopy = imgThresh.copy()        # make a copy of the thresh image, this in necessary b/c findContours modifies the image
-
-        npaContours, npaHierarchy = cv2.findContours(imgThreshCopy,        # input image, make sure to use a copy since the function will modify this image in the course of finding contours
-                                                     cv2.RETR_EXTERNAL,                 # retrieve the outermost contours only
-                                                     cv2.CHAIN_APPROX_SIMPLE)           # compress horizontal, vertical, and diagonal segments and leave only their end points
-
-                                    # declare empty numpy array, we will use this to write to file later
-                                    # zero rows, enough cols to hold all image data
-
-
-                                        # possible chars we are interested in are digits 0 through 9, put these in list intValidChars
-        intValidChars = [ord('0'), ord('1'), ord('2'), ord('3'), ord('4'), ord('5'), ord('6'), ord('7'), ord('8'), ord('9'),
-                         ord('A'), ord('B'), ord('C'), ord('D'), ord('E'), ord('F'), ord('G'), ord('H'), ord('I'), ord('J'),
-                         ord('K'), ord('L'), ord('M'), ord('N'), ord('O'), ord('P'), ord('Q'), ord('R'), ord('S'), ord('T'),
-                         ord('U'), ord('V'), ord('W'), ord('X'), ord('Y'), ord('Z')]
-
-        for npaContour in npaContours:                          # for each contour
-            if cv2.contourArea(npaContour) > Constant.MIN_CONTOUR_AREA:          # if contour is big enough to consider
-                [intX, intY, intW, intH] = cv2.boundingRect(npaContour)         # get and break out bounding rect
-
-                                                    # draw rectangle around each contour as we ask user for input
-                cv2.rectangle(imgTrainingNumbers,           # draw rectangle on original training image
-                              (intX, intY),                 # upper left corner
-                              (intX+intW,intY+intH),        # lower right corner
-                              (0, 0, 255),                  # red
-                              2)                            # thickness
-
-                imgROI = imgThresh[intY:intY+intH, intX:intX+intW]                                  # crop char out of threshold image
-                imgROIResized = cv2.resize(imgROI, (Constant.RESIZED_IMAGE_WIDTH, Constant.RESIZED_IMAGE_HEIGHT))     # resize image, this will be more consistent for recognition and storage
-
-                cv2.imshow("imgROI", imgROI)                    # show cropped out char for reference
-                cv2.imshow("imgROIResized", imgROIResized)      # show resized image for reference
-                cv2.imshow("training_numbers.png", imgTrainingNumbers)      # show training numbers image, this will now have red rectangles drawn on it
-
-                intChar = cv2.waitKey(0)                     # get key press
-
-                if intChar == 27:                   # if esc key was pressed
-                    sys.exit()                      # exit program
-                elif intChar in intValidChars:      # else if the char is in the list of chars we are looking for . . .
-
-                    print("Basılan karakter: " + chr(intChar))
-                    intClassifications.append(intChar)                                                # append classification char to integer list of chars (we will convert to float later before writing to file)
-
-                    npaFlattenedImage = imgROIResized.reshape((1, Constant.RESIZED_IMAGE_WIDTH * Constant.RESIZED_IMAGE_HEIGHT))  # flatten image to 1d numpy array so we can write to file later
-                    npaFlattenedImages = np.append(npaFlattenedImages, npaFlattenedImage, 0)                    # add current flattened impage numpy array to list of flattened image numpy arrays
-                # end if
+            # resim bulunamazsa hata mesajı döndür bir fonksiyonu bitir
+            if imgTrainingNumbers is None:
+                print ("error: image not read from file \n\n")
+                os.system("pause")
+                return False
             # end if
+
+            imgGray = cv2.cvtColor(imgTrainingNumbers, cv2.COLOR_BGR2GRAY)          # grayscale resim elde et
+            imgBlurred = cv2.GaussianBlur(imgGray, (5,5), 0)                        # resmi bulanıklaştır
+
+            # grayscale resmi eşikleme işleminden geçirerek renk tonlamalarını ortadan kaldır.
+            imgThresh = cv2.adaptiveThreshold(imgBlurred,                           # resim girdisi
+                                              255,                                  # eşiği tam beyaz geçen pikseller yapar
+                                              cv2.ADAPTIVE_THRESH_GAUSSIAN_C,       # Gaussian Adaptive Threshold formülü
+                                              cv2.THRESH_BINARY_INV,                # ön plan beyaz olacak, arka plan siyah olacak
+                                              11,                                   # eşik değerini hesaplamak için kullanılan piksel komşuluğunun boyutu
+                                              2)                                    # ortalama veya ağırlıklı ortalamadan çıkarılan sabit
+
+            imgThreshCopy = imgThresh.copy()        # oluşan yeni resmin bir kopyasını çıkar
+
+            npaContours, npaHierarchy = cv2.findContours(imgThreshCopy,        # eşiklenmiş resmin kopyası
+                                                         cv2.RETR_EXTERNAL,                 # sadece en dıştaki kontürları al
+                                                         cv2.CHAIN_APPROX_SIMPLE)           # yatay, dikey ve çapraz bölümleri sıkıştırın ve yalnızca bitiş noktalarını bırak
+
+            # eklenen karakter setlerinde geçerli kılınan harf ve sayıların ASCII değerlerinden oluşan liste
+            intValidChars = [ord('0'), ord('1'), ord('2'), ord('3'), ord('4'), ord('5'), ord('6'), ord('7'), ord('8'), ord('9'),
+                             ord('A'), ord('B'), ord('C'), ord('D'), ord('E'), ord('F'), ord('G'), ord('H'), ord('I'), ord('J'),
+                             ord('K'), ord('L'), ord('M'), ord('N'), ord('O'), ord('P'), ord('Q'), ord('R'), ord('S'), ord('T'),
+                             ord('U'), ord('V'), ord('W'), ord('X'), ord('Y'), ord('Z')]
+
+            for npaContour in npaContours:                                          # her bir kontür için
+                if cv2.contourArea(npaContour) > Constant.MIN_CONTOUR_AREA:         # eğer bulunan kontür minimum sınır değerinden büyükse
+                    [intX, intY, intW, intH] = cv2.boundingRect(npaContour)         # sınırlayıcı dikdörtgeninin koordinant
+
+                    # girişten kullanıcı istediğimizde her kenarın çevresine dikdörtgen çiz
+                    cv2.rectangle(imgTrainingNumbers,           # orjinal resim
+                                  (intX, intY),                 # üst sol köşe
+                                  (intX+intW,intY+intH),        # alt sağ köşe
+                                  (0, 0, 255),                  # kırmızı
+                                  2)                            # kalınlık
+
+                    imgROI = imgThresh[intY:intY+intH, intX:intX+intW]                                                      # eşiklenmiş resimden karakteri kırp
+                    imgROIResized = cv2.resize(imgROI, (Constant.RESIZED_IMAGE_WIDTH, Constant.RESIZED_IMAGE_HEIGHT))       # kırpılan karakteri yeniden boyutlandır
+
+                    cv2.imshow("imgROI", imgROI)
+                    cv2.imshow("imgROIResized", imgROIResized)
+                    cv2.imshow("training_numbers.png", imgTrainingNumbers)      # eğitme için kullanılan karakter işaretlenmiş şeklinde tekrar göster
+
+                    intChar = cv2.waitKey(0)
+
+                    if intChar == 27:                   # ESC'ye basılırsa programı bitirir.
+                        sys.exit()
+                    elif intChar in intValidChars:      # klavyeden okunan karakter geçerli karakterlerden biri ise
+
+                        print("Basılan karakter: " + chr(intChar))
+                        intClassifications.append(intChar)                                                # okunan ASCII kodunu listeye koy
+
+                        npaFlattenedImage = imgROIResized.reshape((1, Constant.RESIZED_IMAGE_WIDTH * Constant.RESIZED_IMAGE_HEIGHT))  # kırpılan resmi tek boyutlu numpy dizisine çevirip düzleştir
+                        npaFlattenedImages = np.append(npaFlattenedImages, npaFlattenedImage, 0)                   # oluşan sonucu listeye kaydet
+                    # end if
+                # end if
+            # end for
         # end for
-    # end for
-    fltClassifications = np.array(intClassifications, np.float32)                   # convert classifications list of ints to numpy array of floats
-    npaClassifications = fltClassifications.reshape((fltClassifications.size, 1))   # flatten numpy array of floats to 1d so we can write to file later
+        fltClassifications = np.array(intClassifications, np.float32)  # int değerlerden oluşan sınıflandırma verileri listini 32 bitlik float değerlere çevir
+        npaClassifications = fltClassifications.reshape((fltClassifications.size, 1))   # float değerler tutan numpy dizisini tek boyuta indirgeyerek düzleştir.
 
-    print ("\n\ntraining complete !!\n")
+        print ("\n\ntraining complete !!\n")
 
-    np.savetxt("classifications.txt", npaClassifications)           # write flattened images to file
-    np.savetxt("flattened_images.txt", npaFlattenedImages)          #
+        np.savetxt("E:/Repos/License-Plate-Recognizer-GitHub/src/data_processing/classifications.txt", npaClassifications)  # düzleştirilmiş resim verilerini kaydet
+        np.savetxt("E:/Repos/License-Plate-Recognizer-GitHub/src/data_processing/flattened_images.txt", npaFlattenedImages)
 
-    cv2.destroyAllWindows()             # remove windows from memory
+        cv2.destroyAllWindows()             # remove windows from memory
 
-    return
+        return True
+    return False
 # end function
 
 ###################################################################################################
 def loadKNNDataAndTrainKNN():
 
     try:
-        npaClassifications = np.loadtxt("classifications.txt", np.float32)                  # read in training classifications
-    except:                                                                                 # if file could not be opened
-        print("error, unable to open classifications.txt, exiting program\n")  # show error message
+        npaClassifications = np.loadtxt("E:/Repos/License-Plate-Recognizer-GitHub/src/data_processing/classifications.txt", np.float32)  #kullanıcı girdilerinden oluşan sınıflandırma verilerini oku.
+    except:  #eğer dosya açılmazsa hata mesajını göster ve False değeri döndür
+        print("error, unable to open classifications.txt, exiting program\n")
         os.system("pause")
-        return False                                                                        # and return False
+        return False
     # end try
 
     try:
-        npaFlattenedImages = np.loadtxt("flattened_images.txt", np.float32)                 # txt dosyasındaki resim verilerini oku.
-    except:                                                                                 # Eğer dosya açılamazsa hata mesajı göster.
+        npaFlattenedImages = np.loadtxt("E:/Repos/License-Plate-Recognizer-GitHub/src/data_processing/flattened_images.txt", np.float32) # txt dosyasındaki resim verilerini oku.
+    except:   # eğer dosya açılamazsa hata mesajı göster.
         print("error, unable to open flattened_images.txt, exiting program\n")
         os.system("pause")
-        return False                                                                        # Eğitme işlemi tamamlanamadı.
+        return False  # eğitme işlemi tamamlanamadı.
     # end try
 
     npaClassifications = npaClassifications.reshape((npaClassifications.size, 1))       # reshape numpy array to 1d, necessary to pass to call to train
@@ -122,5 +125,5 @@ def loadKNNDataAndTrainKNN():
 
     kNearest.train(npaFlattenedImages, cv2.ml.ROW_SAMPLE, npaClassifications)           # KNN nesnesini eğit
 
-    return True                             # Eğitme işlemi tamamlandı.
+    return True                             # eğitme işlemi tamamlandı.
 # end function

@@ -6,8 +6,9 @@ import math
 import random
 
 import DetectChars
+sys.path.append("E:/Repos/License-Plate-Recognizer-GitHub/src/constants")
 import Constant
-sys.path.append("E:\Repos\License-Plate-Recognizer-GitHub\src\objects")
+sys.path.append("E:/Repos/License-Plate-Recognizer-GitHub/src/selectors")
 import PossiblePlate
 
 

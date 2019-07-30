@@ -4,14 +4,12 @@ db = mysql.connector.connect(
     host="localhost",
     user="root",
     passwd="1234",
-    database="lpr"
+
 )
 
 mycursor = db.cursor()
 
-mycursor.execute("SELECT * FROM vehicle")
+mycursor.execute("show databases")
 
-myresult = mycursor.fetchall()
-
-for x in myresult:
+for x in mycursor:
     print(x)
