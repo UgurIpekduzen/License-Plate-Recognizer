@@ -1,0 +1,19 @@
+<component name="InspectionProjectProfileManager">
+  <profile version="1.0">
+    <option name="myName" value="Project Default" />
+    <inspection_tool class="PyUnresolvedReferencesInspection" enabled="true" level="WARNING" enabled_by_default="true">
+      <option name="ignoredIdentifiers">
+        <list>
+          <option value="Constant" />
+          <option value="DetectChars" />
+          <option value="PossiblePlate" />
+          <option value="GenerateAndTrainData" />
+          <option value="ReadImage" />
+          <option value="EditImage" />
+          <option value="PossibleChar" />
+          <option value="DetectPlates" />
+        </list>
+      </option>
+    </inspection_tool>
+  </profile>
+</component>
