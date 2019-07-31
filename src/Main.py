@@ -2,38 +2,43 @@
 import cv2
 import os
 import sys
+import glob
 
 sys.path.append("E:/Repos/License-Plate-Recognizer-GitHub/src/read_and edit_images")
 import ReadImage
 sys.path.append("E:/Repos/License-Plate-Recognizer-GitHub/src/data_processing")
 import GenerateAndTrainData
-
+import Constant
 #####################################################################################################
 def main():
+    # f = open("E:\Repos\License-Plate-Recognizer-GitHub\src\data_processing\deneme.txt", "a+")
+    # for i in range(5):
+    #     f.write("This is line %d\r\n" % (i + 1))
+    # f.close()
+    imgCharacterSets = []
+    # images = glob.glob("E:/Repos/License-Plate-Recognizer-GitHub/dataset/characters/*.jpg")
+    # for image in images:
+    #     print(image)
 
-    # list = os.listdir("E:/Repos/License-Plate-Recognizer-GitHub/dataset/characters")
-    # print(len(list))
-    # listAllClassificationData = np.loadtxt("E:/Repos/License-Plate-Recognizer-GitHub/dataset/classifications.txt")
-    # print(str(listAllClassificationData.size/36))
-    isDataGenerated = GenerateAndTrainData.generateData("E:/Repos/License-Plate-Recognizer-GitHub/dataset/characters")
+    isDataGenerated = GenerateAndTrainData.generateData()
     if isDataGenerated == False:
         print("\nerror: generating data was not successful\n")  # show error message
         return  # and exit program
         #end if
     #end if
-
-    blnKNNTrainingSuccessful = GenerateAndTrainData.loadKNNDataAndTrainKNN()  # attempt KNN training
-
-    if blnKNNTrainingSuccessful == False:  # if KNN training was not successful
-        print("\nerror: KNN training was not successful\n")  # show error message
-        return  # and exit program
-    # end if
-
-    ReadImage.fromWebCam()
-    # ReadImage.fromIPCAM()
-    # ReadImage.fromLocalPath('E:/Repos/License-Plate-Recognizer-GitHub/testimages/32.jpg')
-    # ReadImage.fromLPDatasetAndSaveXLS("E:/Repos/License-Plate-Recognizer-GitHub/LPs")
-    cv2.waitKey(0)  # hold windows open until user presses a key
+    #
+    # blnKNNTrainingSuccessful = GenerateAndTrainData.loadKNNDataAndTrainKNN()  # attempt KNN training
+    #
+    # if blnKNNTrainingSuccessful == False:  # if KNN training was not successful
+    #     print("\nerror: KNN training was not successful\n")  # show error message
+    #     return  # and exit program
+    # # end if
+    #
+    # ReadImage.fromWebCam()
+    # # ReadImage.fromIPCAM()
+    # # ReadImage.fromLocalPath('E:/Repos/License-Plate-Recognizer-GitHub/testimages/32.jpg')
+    # # ReadImage.fromLPDatasetAndSaveXLS("E:/Repos/License-Plate-Recognizer-GitHub/LPs")
+    # cv2.waitKey(0)  # hold windows open until user presses a key
     return
 # end main
 

@@ -63,3 +63,6 @@ SCALAR_RED = (0.0, 0.0, 255.0)
 
 showSteps = True
 ###################################################################################################
+# directory values ################################################################################
+
+strCharacterSetsFilePath = "E:/Repos/License-Plate-Recognizer-GitHub/dataset/characters"

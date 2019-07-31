@@ -36,8 +36,7 @@ def detectPlatesInScene(imgOriginalScene):
     listOfPossibleCharsInScene = findPossibleCharsInScene(imgThreshScene)
 
     if Constant.showSteps == True: # show steps #######################################################
-        print("step 2 - len(listOfPossibleCharsInScene) = " + str(
-            len(listOfPossibleCharsInScene)))  # 131 with MCLRNF1 image
+        print("step 2 - len(listOfPossibleCharsInScene) = " + str(len(listOfPossibleCharsInScene)))
 
         imgContours = np.zeros((height, width, 3), np.uint8)
 
