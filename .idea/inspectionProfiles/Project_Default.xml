@@ -19,6 +19,8 @@
           <option value="EditImage" />
           <option value="PossibleChar" />
           <option value="DetectPlates" />
+          <option value="gui.mainWindow.*" />
+          <option value="mainWindowUI" />
         </list>
       </option>
     </inspection_tool>

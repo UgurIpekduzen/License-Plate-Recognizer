@@ -18,6 +18,13 @@ def detectCharsInPlates(listOfPossiblePlates):
     imgContours = None
     contours = []
 
+    blnKNNTrainingSuccessful = GenerateAndTrainData.loadKNNDataAndTrainKNN()  # attempt KNN training
+
+    if blnKNNTrainingSuccessful == False:  # if KNN training was not successful
+        print("\nerror: KNN training was not successful\n")  # show error message
+        return  # and exit program
+    # end if
+
     if len(listOfPossiblePlates) == 0:    # Eğer muhtemel plaka görüntüsü bulunmadıysa listeyi boş olarak döndür.
         return listOfPossiblePlates
     # end if

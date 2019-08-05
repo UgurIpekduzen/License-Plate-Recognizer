@@ -1,6 +1,10 @@
-# vehicles = [("16CSF07",1,0), ("34E5758",0,0), ("34JR6771",0,1), ("34CJS67",1,0), ("34CDA17",0,1)]
+import SQLQueries
+import time
+
+
+# vehicles = ["16CSF07", "34E5758", "34JR6771", "34CJS67", "34CDA17"]
 # for newLog in vehicles:
-#     insert(mycursor, newLog)
+#     SQLQueries.insertNewLicensePlate(newLog)
 #     print("Kayıt işlemi başarılı!")
 #     time.sleep(1)
 # vehicle1 = ("16CSF07",1,0)
@@ -32,3 +36,13 @@
 #     deleteByLicensePlate(mycursor, deleteLog[0])
 #     print("Silme işlemi başarılı!")
 #     time.sleep(1)
+
+# SQLQueries.deleteAllVehicles()
+# foundVehicleLogs = SQLQueries.selectAllVehicles()
+# for row in foundVehicleLogs:
+#     print("Plaka: ", row[0])
+#     print("Sisteme kayıtlı mı:", "Evet" if row[1] == 1 else "Hayır")
+#     print("Kara listede mi:", "Evet" if row[2] == 1 else "Hayır")
+#     print("-------------------------------------------------------------------")
+
+print(SQLQueries.showFoundVehicleDBInfo("16CSF07"))

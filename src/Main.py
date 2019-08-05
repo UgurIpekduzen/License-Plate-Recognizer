@@ -20,21 +20,21 @@ def main():
     # for image in images:
     #     print(image)
 
-    isDataGenerated = GenerateAndTrainData.generateData()
-    if isDataGenerated == False:
-        print("\nerror: generating data was not successful\n")  # show error message
-        return  # and exit program
-        #end if
-    #end if
-    #
-    # blnKNNTrainingSuccessful = GenerateAndTrainData.loadKNNDataAndTrainKNN()  # attempt KNN training
-    #
-    # if blnKNNTrainingSuccessful == False:  # if KNN training was not successful
-    #     print("\nerror: KNN training was not successful\n")  # show error message
+    # isDataGenerated = GenerateAndTrainData.generateData()
+    # if isDataGenerated == False:
+    #     print("\nerror: generating data was not successful\n")  # show error message
     #     return  # and exit program
-    # # end if
-    #
-    # ReadImage.fromWebCam()
+    #     #end if
+    # #end if
+    # #
+    blnKNNTrainingSuccessful = GenerateAndTrainData.loadKNNDataAndTrainKNN()  # attempt KNN training
+
+    if blnKNNTrainingSuccessful == False:  # if KNN training was not successful
+        print("\nerror: KNN training was not successful\n")  # show error message
+        return  # and exit program
+    # end if
+
+    print(ReadImage.fromWebCam())
     # # ReadImage.fromIPCAM()
     # # ReadImage.fromLocalPath('E:/Repos/License-Plate-Recognizer-GitHub/testimages/32.jpg')
     # # ReadImage.fromLPDatasetAndSaveXLS("E:/Repos/License-Plate-Recognizer-GitHub/LPs")

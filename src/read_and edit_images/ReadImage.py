@@ -31,7 +31,7 @@ def readLPImagePaths(strFolderPath):
 def fromWebCam():
 
     cam = cv2.VideoCapture(0)
-
+    strCorrectLPText = ""
     while True:
         ret, imgOriginalScene = cam.read()
 
@@ -62,6 +62,7 @@ def fromWebCam():
                     matchObj = re.search("^(0[1-9]|[1-7][0-9]|8[01])(([A-Z])(\d{4,5})|([A-Z]{2})(\d{3,4})|([A-Z]{3})(\d{2}))$", licPlate.strChars)
                     if (matchObj):
                         print("\nlicense plate read from image = " + licPlate.strChars + "\n\n")  # write license plate text to std out
+                        strCorrectLPText = licPlate.strChars
                         time.sleep(1)
                         break
                     else:
@@ -70,12 +71,14 @@ def fromWebCam():
                 # end if else
             # end if else
         # end for
-        # # end if else
+        if (len(strCorrectLPText) > 0):
+            break
+        #end if
         cv2.waitKey(0)
     #end while
     cam.release()
     cv2.destroyAllWindows()
-    return
+    return strCorrectLPText
 #end function
 
 # HATALI ##########################################################################################

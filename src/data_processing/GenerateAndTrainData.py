@@ -125,17 +125,17 @@ def generateData():
 def loadKNNDataAndTrainKNN():
 
     try:
-        npaClassifications = np.loadtxt("E:/Repos/License-Plate-Recognizer-GitHub/src/data_processing/classifications.txt", np.float32)  #kullanıcı girdilerinden oluşan sınıflandırma verilerini oku.
+        npaClassifications = np.loadtxt("E:/Repos/License-Plate-Recognizer-GitHub/src/data_processing/classifications_all_in_one.txt", np.float32)  #kullanıcı girdilerinden oluşan sınıflandırma verilerini oku.
     except:  #eğer dosya açılmazsa hata mesajını göster ve False değeri döndür
-        print("error, unable to open classifications.txt, exiting program\n")
+        print("error, unable to open classifications_all_in_one.txt, exiting program\n")
         os.system("pause")
         return False
     # end try
 
     try:
-        npaFlattenedImages = np.loadtxt("E:/Repos/License-Plate-Recognizer-GitHub/src/data_processing/flattened_images.txt", np.float32) # txt dosyasındaki resim verilerini oku.
+        npaFlattenedImages = np.loadtxt("E:/Repos/License-Plate-Recognizer-GitHub/src/data_processing/flattened_images_all_in_one.txt", np.float32) # txt dosyasındaki resim verilerini oku.
     except:   # eğer dosya açılamazsa hata mesajı göster.
-        print("error, unable to open flattened_images.txt, exiting program\n")
+        print("error, unable to open flattened_images_all_in_one.txt, exiting program\n")
         os.system("pause")
         return False  # eğitme işlemi tamamlanamadı.
     # end try
