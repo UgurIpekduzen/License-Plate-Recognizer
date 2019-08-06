@@ -16,7 +16,7 @@ def deleteAllVehicles():
 def selectAllVehicles():
     return db.select('Vehicle', None, '*')
 
-def searchByLicensePlate(strLicensePlate):
+def selectByLicensePlate(strLicensePlate):
     condition = 'licensePlate= %s'
     return db.select('Vehicle',condition,'*', licensePlate=strLicensePlate)
 
@@ -25,7 +25,7 @@ def insertNewLicensePlate(licensePlate):
     return db.insert('Vehicle', licensePlate=licensePlate, isRegistered= 0, isBlackListed=0)
 
 def showFoundVehicleDBInfo(strLicensePlate):
-    VehicleDBInfo = searchByLicensePlate(strLicensePlate)
+    VehicleDBInfo = selectByLicensePlate(strLicensePlate)
     return ' '.join(["Plaka:", VehicleDBInfo[0][0],
                      "\nSisteme kayıtlı mı:", "Evet" if VehicleDBInfo[0][1] == 1 else "Hayır",
                      "\nKara listede mi:", "Evet\n" if VehicleDBInfo[0][2] == 1 else "Hayır\n"])
