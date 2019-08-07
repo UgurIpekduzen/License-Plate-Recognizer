@@ -35,7 +35,6 @@ def main():
         # end elif
         intSelectionScreen = int(input())
         dbui.strMenuName = uisw.switch(switcher, intSelectionScreen)
-
     # end while
 # end function
 

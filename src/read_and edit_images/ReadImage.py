@@ -32,7 +32,8 @@ def fromWebCam():
 
     cam = cv2.VideoCapture(0)
     strCorrectLPText = ""
-    while True:
+    processTimeInSecond = 0
+    while processTimeInSecond is not 10:
         ret, imgOriginalScene = cam.read()
 
         for zoomRate in range(100,400, 50):
@@ -44,6 +45,8 @@ def fromWebCam():
 
             if len(listOfPossiblePlates) == 0:  # if no plates were found
                 print("\nno license plates were detected\n")  # inform user no plates were found
+                processTimeInSecond += 1
+                time.sleep(1)
                 break
             else:  # else
                 # if we get in here list of possible plates has at least one plate
@@ -56,6 +59,8 @@ def fromWebCam():
 
                 if len(licPlate.strChars) == 0:  # if no chars were found in the plate
                     print("\nno characters were detected\n\n")  # show message
+                    processTimeInSecond += 1
+                    time.sleep(1)
                     break
                 # end if
                 else:
@@ -63,6 +68,7 @@ def fromWebCam():
                     if (matchObj):
                         print("\nlicense plate read from image = " + licPlate.strChars + "\n\n")  # write license plate text to std out
                         strCorrectLPText = licPlate.strChars
+                        processTimeInSecond += 1
                         time.sleep(1)
                         break
                     else:
@@ -71,10 +77,10 @@ def fromWebCam():
                 # end if else
             # end if else
         # end for
+        print("işlem süresi: " + str(processTimeInSecond))
         if (len(strCorrectLPText) > 0):
             break
         #end if
-        cv2.waitKey(0)
     #end while
     cam.release()
     cv2.destroyAllWindows()

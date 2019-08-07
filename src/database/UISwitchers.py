@@ -23,7 +23,7 @@ def selectonescr():
     return "selectonescr"
 
 def default():
-    print("Hata")
+    print("Hatalı giriş yaptınız lütfen tekrar deneyiniz:")
 
 mainMenuSwitchers = {
     0: mainmenuscr,
