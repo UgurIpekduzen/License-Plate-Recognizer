@@ -234,6 +234,8 @@ def fromLocalPath(path):
 
 def fromWebCamFrame(frame):
 
+    strCorrectLPText = ""
+
     for zoomRate in range(100,400, 50):
 
         imgOriginalScene = EditImage.adjust(frame, zoomRate)
@@ -243,7 +245,6 @@ def fromWebCamFrame(frame):
 
         if len(listOfPossiblePlates) == 0:  # if no plates were found
             print("\nno license plates were detected\n")  # inform user no plates were found
-            time.sleep(1)
             break
         else:  # else
             # if we get in here list of possible plates has at least one plate
@@ -256,7 +257,6 @@ def fromWebCamFrame(frame):
 
             if len(licPlate.strChars) == 0:  # if no chars were found in the plate
                 print("\nno characters were detected\n\n")  # show message
-                time.sleep(1)
                 break
             # end if
             else:
@@ -264,7 +264,6 @@ def fromWebCamFrame(frame):
                 if (matchObj):
                     print("\nlicense plate read from image = " + licPlate.strChars + "\n\n")  # write license plate text to std out
                     strCorrectLPText = licPlate.strChars
-                    time.sleep(1)
                     break
                 else:
                     continue
