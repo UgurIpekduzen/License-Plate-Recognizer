@@ -19,8 +19,11 @@ class MainWindow(QWidget):
         self.ui = Ui_LPR_App()
         self.ui.setupUi(self)
         self.LP = ""
+        self.cap = cv2.VideoCapture(0)
+
         self.timer = QTimer()
-        # self.timer.timeout.connect(self.viewCam)
+        self.timer.timeout.connect(self.videoCaptureStream)
+        self.timer.start(0)
         self.ui.ButtonStartReading.clicked.connect(self.readLicensePlateFromWebCam)
         self.ui.ButtonQueryVehicleInfoInDB.clicked.connect(self.getVehicleInfoFromDatabase)
 
@@ -29,13 +32,13 @@ class MainWindow(QWidget):
         self.ui.LabelBlackListedIcon.setPixmap(QPixmap("E:/Repos/License-Plate-Recognizer-GitHub/gui/icon/blacklisted.png"))
         self.ui.LabelGuestIcon.setPixmap(QPixmap("E:/Repos/License-Plate-Recognizer-GitHub/gui/icon/guest.png"))
 
-    # def viewCam(self):
-    #     ret, image = self.cap.read()
-    #     image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
-    #     height, width, channel = image.shape
-    #     step = channel * width
-    #     qImg = QImage(image.data, width, height, step, QImage.Format_RGB888)
-    #     self.ui.FrameLabel.setPixmap(QPixmap.fromImage(qImg))
+    def videoCaptureStream(self):
+        _, image = self.cap.read()
+        image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+        height, width, channel = image.shape
+        step = channel * width
+        qImg = QImage(image.data, width, height, step, QImage.Format_RGB888)
+        self.ui.LabelWebcamFrame.setPixmap(QPixmap.fromImage(qImg))
 
     def setPassIcons(self):
         self.ui.LabelRegisteredIcon.setPixmap(
