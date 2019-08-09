@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1293</width>
+    <width>1296</width>
     <height>921</height>
    </rect>
   </property>
@@ -45,110 +45,15 @@
    <property name="title">
     <string>Önceki Plakalar</string>
    </property>
-   <widget class="QTableWidget" name="TableWidgetPreviousPlates">
+   <widget class="QTableView" name="tableViewPreviousPlates">
     <property name="geometry">
      <rect>
       <x>20</x>
       <y>40</y>
-      <width>501</width>
-      <height>661</height>
+      <width>491</width>
+      <height>651</height>
      </rect>
     </property>
-    <property name="rowCount">
-     <number>1</number>
-    </property>
-    <property name="columnCount">
-     <number>6</number>
-    </property>
-    <attribute name="horizontalHeaderVisible">
-     <bool>true</bool>
-    </attribute>
-    <attribute name="horizontalHeaderCascadingSectionResizes">
-     <bool>false</bool>
-    </attribute>
-    <attribute name="horizontalHeaderDefaultSectionSize">
-     <number>167</number>
-    </attribute>
-    <attribute name="horizontalHeaderStretchLastSection">
-     <bool>false</bool>
-    </attribute>
-    <attribute name="verticalHeaderVisible">
-     <bool>false</bool>
-    </attribute>
-    <attribute name="verticalHeaderStretchLastSection">
-     <bool>false</bool>
-    </attribute>
-    <row>
-     <property name="text">
-      <string>sölsaö</string>
-     </property>
-    </row>
-    <column>
-     <property name="text">
-      <string>Geçiş Durumu</string>
-     </property>
-     <property name="font">
-      <font>
-       <family>Segoe UI</family>
-      </font>
-     </property>
-     <property name="foreground">
-      <brush brushstyle="SolidPattern">
-       <color alpha="255">
-        <red>0</red>
-        <green>0</green>
-        <blue>0</blue>
-       </color>
-      </brush>
-     </property>
-    </column>
-    <column>
-     <property name="text">
-      <string>Plaka</string>
-     </property>
-     <property name="font">
-      <font>
-       <family>Segoe UI</family>
-      </font>
-     </property>
-     <property name="foreground">
-      <brush brushstyle="SolidPattern">
-       <color alpha="255">
-        <red>0</red>
-        <green>0</green>
-        <blue>0</blue>
-       </color>
-      </brush>
-     </property>
-    </column>
-    <column>
-     <property name="text">
-      <string notr="true">Zaman</string>
-     </property>
-     <property name="toolTip">
-      <string/>
-     </property>
-     <property name="whatsThis">
-      <string/>
-     </property>
-     <property name="font">
-      <font>
-       <family>Segoe UI</family>
-      </font>
-     </property>
-     <property name="foreground">
-      <brush brushstyle="SolidPattern">
-       <color alpha="255">
-        <red>0</red>
-        <green>0</green>
-        <blue>0</blue>
-       </color>
-      </brush>
-     </property>
-    </column>
-    <column/>
-    <column/>
-    <column/>
    </widget>
   </widget>
   <widget class="QGroupBox" name="GroupBoxPassIcons">

@@ -22,14 +22,15 @@ class MainWindow(QWidget):
         self.ui = Ui_LPR_App()
         self.ui.setupUi(self)
         self.LP = ""
+        self.arrayPreviousPlates = []
         self.cap = cv2.VideoCapture(0)
-
+        self.intShowMessageSecond = 0
         self.timer = QTimer()
-        self.timer.timeout.connect(self.videoCaptureStream)
+        self.timer.timeout.connect(self.readLicensePlateFromWebCam)
         self.timer.start(0)
 
-        self.ui.ButtonStartReading.clicked.connect(self.readLicensePlateFromWebCam)
-        self.ui.ButtonQueryVehicleInfoInDB.clicked.connect(self.getVehicleInfoFromDatabase)
+        # self.ui.ButtonStartReading.clicked.connect(self.readLicensePlateFromWebCam)
+        # self.ui.ButtonQueryVehicleInfoInDB.clicked.connect(self.getVehicleInfoFromDatabase)
 
         self.ui.LabelRegisteredIcon.setPixmap(QPixmap("E:/Repos/License-Plate-Recognizer-GitHub/gui/icon/registered.png"))
         self.ui.LabelUnrecognizedIcon.setPixmap(QPixmap("E:/Repos/License-Plate-Recognizer-GitHub/gui/icon/unknown.png"))
@@ -75,27 +76,48 @@ class MainWindow(QWidget):
 
     def readLicensePlateFromWebCam(self):
         self.updateGroupBoxMatchingVehicleInfoLabels()
-        self.ui.LabelReadingLPText.setText("")
-        self.ui.LabelReadingLPIcon.setPixmap(QPixmap())
-        intCountdown = 10
-        while True:
-            self.LP = ReadImage.fromWebCamFrame(self.videoCaptureStream())
+
+        # intCountdown = 10
+        # while True:
+        #     self.LP = ReadImage.fromWebCamFrame(self.videoCaptureStream())
+        #     if self.LP:
+        #         self.ui.LabelReadingLPIcon.setPixmap(QPixmap("E:\Repos\License-Plate-Recognizer-GitHub\gui\icon\checked.png"))
+        #         self.ui.LabelReadingLPText.setText(self.LP)
+        #
+        #         self.arrayPreviousPlates.append(tuple([QPixmap("E:\Repos\License-Plate-Recognizer-GitHub\gui\icon\checked.png"),self.LP, datetime.now().strftime("%d/%m/%Y - %H:%M:%S")]))
+        #         tableModel = MyTableModel(self.arrayPreviousPlates, self)
+        #         self.ui.tableViewPreviousPlates.setModel(tableModel)
+        #         break
+        #     else:
+        #         if intCountdown == 0:
+        #             self.ui.LabelReadingLPIcon.setPixmap(QPixmap("E:\Repos\License-Plate-Recognizer-GitHub\gui\icon\cancel.png"))
+        #             self.ui.LabelReadingLPText.setText("PLAKA YOK")
+        #             break
+        #         else:
+        #             intCountdown -= 1
+        #             self.ui.ProgressBarReadingCountdown.setProperty("value", intCountdown * 10)
+        #             sleep(1)
+        #         # end if else
+        #     # end if else
+        # # end while
+
+        self.LP = ReadImage.fromWebCamFrame(self.videoCaptureStream())
+        self.intShowMessageSecond = int(time() % 60)
+        if self.intShowMessageSecond is not 0:
             if self.LP:
-                self.ui.LabelReadingLPIcon.setPixmap(QPixmap("E:\Repos\License-Plate-Recognizer-GitHub\gui\icon\checked.png"))
+                self.ui.LabelReadingLPIcon.setPixmap(
+                    QPixmap("E:\Repos\License-Plate-Recognizer-GitHub\gui\icon\checked.png"))
                 self.ui.LabelReadingLPText.setText(self.LP)
-                break
+
+
             else:
-                if intCountdown == 0:
-                    self.ui.LabelReadingLPIcon.setPixmap(QPixmap("E:\Repos\License-Plate-Recognizer-GitHub\gui\icon\cancel.png"))
-                    self.ui.LabelReadingLPText.setText("PLAKA YOK")
-                    break
-                else:
-                    intCountdown -= 1
-                    self.ui.ProgressBarReadingCountdown.setProperty("value", intCountdown * 10)
-                    sleep(1)
-                # end if else
+                self.ui.LabelReadingLPIcon.setPixmap(
+                    QPixmap("E:\Repos\License-Plate-Recognizer-GitHub\gui\icon\cancel.png"))
+                self.ui.LabelReadingLPText.setText("PLAKA YOK")
             # end if else
-        # end while
+        else:
+            self.ui.LabelReadingLPText.setText("")
+            self.ui.LabelReadingLPIcon.setPixmap(QPixmap())
 
     def getVehicleInfoFromDatabase(self):
         foundVehicle = SQLQueries.selectByLicensePlate(self.LP)
@@ -109,6 +131,27 @@ class MainWindow(QWidget):
         else:
             self.ui.LabelLabelNotificationMesssageIcon.setPixmap(QPixmap("E:\Repos\License-Plate-Recognizer-GitHub\gui\icon\cancel2.png"))
             self.ui.LabelNotificationMesssage.setText("Eşleşen herhangi bir kayıt bulunamadı!")
+        # end if else
+    # end function
+# end class
+
+class MyTableModel(QAbstractTableModel):
+    def __init__(self, datain, parent=None, *args):
+        QAbstractTableModel.__init__(self, parent, *args)
+        self.arraydata = datain
+
+    def rowCount(self, parent):
+        return len(self.arraydata)
+
+    def columnCount(self, parent):
+        return len(self.arraydata[0])
+
+    def data(self, index, role):
+        if not index.isValid():
+            return QVariant()
+        elif role != Qt.DisplayRole:
+            return QVariant()
+        return QVariant(self.arraydata[index.row()][index.column()])
 
 
 if __name__ == '__main__':
