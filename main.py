@@ -1,14 +1,11 @@
 # Main.py
 import cv2
 import os
-import sys
 import glob
 
-# sys.path.append("E:/Repos/License-Plate-Recognizer-GitHub/src/read_and edit_images")
-import ReadImage
-# sys.path.append("E:/Repos/License-Plate-Recognizer-GitHub/src/data_processing")
-import GenerateAndTrainData
-# import Constant
+from src.read_and_edit_images import ReadImage
+from src.data_processing import GenerateAndTrainData 
+
 #####################################################################################################
 def main():
     # f = open("E:\Repos\License-Plate-Recognizer-GitHub\src\data_processing\deneme.txt", "a+")
