@@ -95,7 +95,7 @@ class DBConnection(object):
         if kwargs:
             keys = kwargs.keys()
             values = tuple(kwargs.values())
-            query += "(" + ",".join(["`%s`"] * len(keys)) %  tuple (keys) + ") VALUES (" + ",".join(["%s"]*len(values)) + ")"
+            query += "(" + ",".join(["`%s`"] * len(keys)) % tuple(keys) + ") VALUES (" + ",".join(["%s"] * len(values)) + ")"
         elif args:
             values = args
             query += " VALUES(" + ",".join(["%s"]*len(values)) + ")"

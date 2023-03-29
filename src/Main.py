@@ -38,7 +38,7 @@ def main():
     # # ReadImage.fromIPCAM()
     # # ReadImage.fromLocalPath('E:/Repos/License-Plate-Recognizer-GitHub/testimages/32.jpg')
     # # ReadImage.fromLPDatasetAndSaveXLS("E:/Repos/License-Plate-Recognizer-GitHub/LPs")
-    # cv2.waitKey(0)  # hold windows open until user presses a key
+    cv2.waitKey(0)  # hold windows open until user presses a key
     return
 # end main
 

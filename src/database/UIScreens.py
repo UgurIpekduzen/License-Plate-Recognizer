@@ -81,7 +81,7 @@ class UIScreens(object):
         clear()
         print("-- TÜM KAYITLARI GÖTÜNTÜLEME EKRANI --")
         allVehicles = SQLQueries.selectAllVehicles()
-        print("Plaka" + "      |       " + "Kayıtlı Mı?" + "      |       " + "Kara Listede Mi?")
+        print("   Plaka" + "      |     " + "Kayıtlı Mı?" + "     |   " + "Kara Listede Mi?")
         for vehicle in allVehicles:
             print("-------------------------------------------------------------")
             if(vehicle[0] == ""):

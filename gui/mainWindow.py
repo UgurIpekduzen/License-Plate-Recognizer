@@ -1,4 +1,5 @@
 import sys
+
 sys.path.append("E:/Repos/License-Plate-Recognizer-GitHub/src/database")
 sys.path.append("E:/Repos/License-Plate-Recognizer-GitHub/src/read_and edit_images")
 import SQLQueries
@@ -16,26 +17,85 @@ from mainWindowUI import Ui_LPR_App
 
 framePath = "E:/Repos/License-Plate-Recognizer-GitHub/gui/frames/"
 
+
 class MainWindow(QWidget):
     def __init__(self):
         super().__init__()
         self.ui = Ui_LPR_App()
         self.ui.setupUi(self)
-        self.LP = ""
+        self.selectedLicensePlate = ""
         self.arrayPreviousPlates = []
         self.cap = cv2.VideoCapture(0)
-        self.intShowMessageSecond = 0
         self.timer = QTimer()
-        self.timer.timeout.connect(self.readLicensePlateFromWebCam)
+        self.timer.timeout.connect(self.videoCaptureStream)
         self.timer.start(0)
 
-        # self.ui.ButtonStartReading.clicked.connect(self.readLicensePlateFromWebCam)
-        # self.ui.ButtonQueryVehicleInfoInDB.clicked.connect(self.getVehicleInfoFromDatabase)
+        self.setPassIcons()
+        self.ui.TableViewPreviousPlates.clicked.connect(self.getVehicleInfoFromDatabase)
 
-        self.ui.LabelRegisteredIcon.setPixmap(QPixmap("E:/Repos/License-Plate-Recognizer-GitHub/gui/icon/registered.png"))
-        self.ui.LabelUnrecognizedIcon.setPixmap(QPixmap("E:/Repos/License-Plate-Recognizer-GitHub/gui/icon/unknown.png"))
-        self.ui.LabelBlackListedIcon.setPixmap(QPixmap("E:/Repos/License-Plate-Recognizer-GitHub/gui/icon/blacklisted.png"))
-        self.ui.LabelGuestIcon.setPixmap(QPixmap("E:/Repos/License-Plate-Recognizer-GitHub/gui/icon/guest.png"))
+        self.ui.ButtonAddNewRegistry.clicked.connect(self.addNewRegistry)
+        self.ui.ButtonAddAsVisitor.clicked.connect(self.addAsVisitor)
+        self.ui.ButtonDeleteCurrentRegistry.clicked.connect(self.deleteCurrentRegistry)
+        self.ui.ButtonAddToBlackList.clicked.connect(self.addToBlackList)
+
+        self.setGroupBoxMatchingVehicleInfoButtonsVisibility()
+
+    def setGroupBoxMatchingVehicleInfoButtonsVisibility(self, addNewRegistryBtn=False, addAsVisitorBtn=False,
+                                                        deleteRegistryBtn=False, addBlackListBtn=False):
+        self.ui.ButtonAddNewRegistry.setVisible(addNewRegistryBtn)
+        self.ui.ButtonAddAsVisitor.setVisible(addAsVisitorBtn)
+        self.ui.ButtonDeleteCurrentRegistry.setVisible(deleteRegistryBtn)
+        self.ui.ButtonAddToBlackList.setVisible(addBlackListBtn)
+
+    def setPassIconsByLicensePlateStatus(self, strLicensePlate):
+        if SQLQueries.identifyVehicleStatusByLicensePlate(strLicensePlate) is 'U':
+            return QIcon("E:/Repos/License-Plate-Recognizer-GitHub/gui/icon/pass_icons/unknown.png")
+        elif SQLQueries.identifyVehicleStatusByLicensePlate(strLicensePlate) is 'G':
+            return QIcon("E:/Repos/License-Plate-Recognizer-GitHub/gui/icon/pass_icons/guest.png")
+        elif SQLQueries.identifyVehicleStatusByLicensePlate(strLicensePlate) is 'R':
+            return QIcon("E:/Repos/License-Plate-Recognizer-GitHub/gui/icon/pass_icons/registered.png")
+        elif SQLQueries.identifyVehicleStatusByLicensePlate(strLicensePlate) is 'B':
+            return QIcon("E:/Repos/License-Plate-Recognizer-GitHub/gui/icon/pass_icons/blacklisted.png")
+
+    def getElapsedTime(self, intSecond):
+        return time() % intSecond if type(intSecond) is float else int(time() % intSecond)
+
+    def addNewRegistry(self):
+        if SQLQueries.selectByLicensePlate(self.selectedLicensePlate):
+            SQLQueries.updateSelectedVehicleInfo(self.selectedLicensePlate, 1, 0)
+            self.ui.LabelLabelNotificationMesssageIcon.setPixmap(
+                QPixmap("E:/Repos/License-Plate-Recognizer-GitHub/gui/icon/matching_registry/30x30/add_data_alt_30x30.png"))
+        else:
+            SQLQueries.insertNewLicensePlate(self.selectedLicensePlate, 1, 0)
+            self.ui.LabelLabelNotificationMesssageIcon.setPixmap(
+                QPixmap("E:/Repos/License-Plate-Recognizer-GitHub/gui/icon/matching_registry/30x30/added_30x30.png"))
+        self.ui.LabelNotificationMesssage.setText("Yeni kayıt ekleme başarılı!")
+        self.updateGroupBoxMatchingVehicleInfoLabels()
+        self.setGroupBoxMatchingVehicleInfoButtonsVisibility()
+
+    def addAsVisitor(self):
+        SQLQueries.insertNewLicensePlate(self.selectedLicensePlate, 0, 0)
+        self.ui.LabelLabelNotificationMesssageIcon.setPixmap(
+            QPixmap("E:/Repos/License-Plate-Recognizer-GitHub/gui/icon/matching_registry/30x30/import_data.png"))
+        self.ui.LabelNotificationMesssage.setText("Misafir ekleme başarılı!")
+        self.updateGroupBoxMatchingVehicleInfoLabels()
+        self.setGroupBoxMatchingVehicleInfoButtonsVisibility()
+
+    def addToBlackList(self):
+        SQLQueries.updateSelectedVehicleInfo(self.selectedLicensePlate, 1, 1)
+        self.ui.LabelLabelNotificationMesssageIcon.setPixmap(
+            QPixmap("E:/Repos/License-Plate-Recognizer-GitHub/gui/icon/matching_registry/30x30/update_30x30.png"))
+        self.ui.LabelNotificationMesssage.setText("Kara listeye alma başarılı!")
+        self.updateGroupBoxMatchingVehicleInfoLabels()
+        self.setGroupBoxMatchingVehicleInfoButtonsVisibility()
+
+    def deleteCurrentRegistry(self):
+        SQLQueries.deleteByLicensePlate(self.selectedLicensePlate)
+        self.ui.LabelLabelNotificationMesssageIcon.setPixmap(
+            QPixmap("E:/Repos/License-Plate-Recognizer-GitHub/gui/icon/matching_registry/30x30/remove_data_30x30.png"))
+        self.ui.LabelNotificationMesssage.setText("Kayıt silme başarılı!")
+        self.updateGroupBoxMatchingVehicleInfoLabels()
+        self.setGroupBoxMatchingVehicleInfoButtonsVisibility()
 
     def videoCaptureStream(self):
         _, image = self.cap.read()
@@ -45,113 +105,109 @@ class MainWindow(QWidget):
         qImg = QImage(imgReColoredImage.data, width, height, step, QImage.Format_RGB888)
         self.ui.LabelWebcamFrame.setPixmap(QPixmap.fromImage(qImg))
 
-        # elapsedTime = int(time() % 60)
-        # dateTime = str(datetime.now().strftime("%d%m%Y-%H%M%S"))
-        # strFullPath = ''.join([framePath, dateTime, ".jpg"])
-        # if elapsedTime % 3 == 0:
-        #     cv2.imwrite(strFullPath, image)
-
-        return image
+        if self.getElapsedTime(3) is 0:
+            self.readLicensePlateFromWebCam(image)
 
     def updateGroupBoxMatchingVehicleInfoLabels(self, vehicle=None):
         if vehicle is None:
             self.ui.LabelLPText.setText("")
             self.ui.LabelRegisterStatusText.setText("")
             self.ui.LabelBLStatusText.setText("")
-            self.ui.LabelLabelNotificationMesssageIcon.setPixmap(QPixmap())
-            self.ui.LabelNotificationMesssage.setText("")
         else:
             self.ui.LabelLPText.setText(vehicle[0][0])
-            self.ui.LabelRegisterStatusText.setText("Evet" if vehicle[0][1] == 1 else "Hayır")
-            self.ui.LabelBLStatusText.setText("Evet" if vehicle[0][1] == 1 else "Hayır")
+            self.ui.LabelRegisterStatusText.setText("Evet" if vehicle[0][1] is 1 else "Hayır")
+            self.ui.LabelBLStatusText.setText("Evet" if vehicle[0][1] is 1 else "Hayır")
 
     def setPassIcons(self):
         self.ui.LabelRegisteredIcon.setPixmap(
-            QPixmap("E:/Repos/License-Plate-Recognizer-GitHub/gui/icon/registered.png"))
+            QPixmap("E:/Repos/License-Plate-Recognizer-GitHub/gui/icon/pass_icons/registered.png"))
         self.ui.LabelUnrecognizedIcon.setPixmap(
-            QPixmap("E:/Repos/License-Plate-Recognizer-GitHub/gui/icon/unknown.png"))
+            QPixmap("E:/Repos/License-Plate-Recognizer-GitHub/gui/icon/pass_icons/unknown.png"))
         self.ui.LabelBlackListedIcon.setPixmap(
-            QPixmap("E:/Repos/License-Plate-Recognizer-GitHub/gui/icon/blacklisted.png"))
-        self.ui.LabelGuestIcon.setPixmap(QPixmap("E:/Repos/License-Plate-Recognizer-GitHub/gui/icon/guest.png"))
+            QPixmap("E:/Repos/License-Plate-Recognizer-GitHub/gui/icon/pass_icons/blacklisted.png"))
+        self.ui.LabelGuestIcon.setPixmap(
+            QPixmap("E:/Repos/License-Plate-Recognizer-GitHub/gui/icon/pass_icons/guest.png"))
 
-    def readLicensePlateFromWebCam(self):
-        self.updateGroupBoxMatchingVehicleInfoLabels()
+    def readLicensePlateFromWebCam(self, image):
 
-        # intCountdown = 10
-        # while True:
-        #     self.LP = ReadImage.fromWebCamFrame(self.videoCaptureStream())
-        #     if self.LP:
-        #         self.ui.LabelReadingLPIcon.setPixmap(QPixmap("E:\Repos\License-Plate-Recognizer-GitHub\gui\icon\checked.png"))
-        #         self.ui.LabelReadingLPText.setText(self.LP)
-        #
-        #         self.arrayPreviousPlates.append(tuple([QPixmap("E:\Repos\License-Plate-Recognizer-GitHub\gui\icon\checked.png"),self.LP, datetime.now().strftime("%d/%m/%Y - %H:%M:%S")]))
-        #         tableModel = MyTableModel(self.arrayPreviousPlates, self)
-        #         self.ui.tableViewPreviousPlates.setModel(tableModel)
-        #         break
-        #     else:
-        #         if intCountdown == 0:
-        #             self.ui.LabelReadingLPIcon.setPixmap(QPixmap("E:\Repos\License-Plate-Recognizer-GitHub\gui\icon\cancel.png"))
-        #             self.ui.LabelReadingLPText.setText("PLAKA YOK")
-        #             break
-        #         else:
-        #             intCountdown -= 1
-        #             self.ui.ProgressBarReadingCountdown.setProperty("value", intCountdown * 10)
-        #             sleep(1)
-        #         # end if else
-        #     # end if else
-        # # end while
+        strReadLicensePlate = ReadImage.fromWebCamFrame(image)
 
-        self.LP = ReadImage.fromWebCamFrame(self.videoCaptureStream())
-        self.intShowMessageSecond = int(time() % 60)
-        if self.intShowMessageSecond is not 0:
-            if self.LP:
+        if self.getElapsedTime(3) is not 0:
+            if strReadLicensePlate:
                 self.ui.LabelReadingLPIcon.setPixmap(
-                    QPixmap("E:\Repos\License-Plate-Recognizer-GitHub\gui\icon\checked.png"))
-                self.ui.LabelReadingLPText.setText(self.LP)
+                    QPixmap("E:/Repos/License-Plate-Recognizer-GitHub/gui/icon/reading_plates/checked.png"))
+                self.ui.LabelReadingLPText.setText(strReadLicensePlate)
 
-
+                arrayTupleElement = (self.setPassIconsByLicensePlateStatus(strReadLicensePlate),
+                                     strReadLicensePlate,
+                                     datetime.now().strftime("%d/%m/%Y %H:%M"))
+                if len([item for item in self.arrayPreviousPlates if
+                        (arrayTupleElement[1] in item and arrayTupleElement[2] in item)]) is 0:
+                    self.arrayPreviousPlates.append(arrayTupleElement)
+                    self.ui.TableViewPreviousPlates.setModel(MyTableModel(self, self.arrayPreviousPlates))
             else:
                 self.ui.LabelReadingLPIcon.setPixmap(
-                    QPixmap("E:\Repos\License-Plate-Recognizer-GitHub\gui\icon\cancel.png"))
+                    QPixmap("E:/Repos/License-Plate-Recognizer-GitHub/gui/icon/reading_plates/cancel.png"))
                 self.ui.LabelReadingLPText.setText("PLAKA YOK")
             # end if else
         else:
             self.ui.LabelReadingLPText.setText("")
             self.ui.LabelReadingLPIcon.setPixmap(QPixmap())
+        # end if else
 
-    def getVehicleInfoFromDatabase(self):
-        foundVehicle = SQLQueries.selectByLicensePlate(self.LP)
+    def getVehicleInfoFromDatabase(self, item):
+        self.selectedLicensePlate = self.arrayPreviousPlates[item.row()][1]
+        foundVehicle = SQLQueries.selectByLicensePlate(self.selectedLicensePlate)
         if foundVehicle:
-            self.updateGroupBoxMatchingVehicleInfoLabels(foundVehicle)
-            self.ui.LabelRegisterStatusText.setText("Evet" if foundVehicle[0][1] == 1 else "Hayır")
-            self.ui.LabelBLStatusText.setText("Evet" if foundVehicle[0][2] == 1 else "Hayır")
-
-            self.ui.LabelLabelNotificationMesssageIcon.setPixmap(QPixmap("E:\Repos\License-Plate-Recognizer-GitHub\gui\icon\checked2.png"))
-            self.ui.LabelNotificationMesssage.setText("Eşleşen bir kayıt bulundu!")
+            self.ui.LabelLPText.setText(foundVehicle[0][0])
+            self.ui.LabelRegisterStatusText.setText("Evet" if foundVehicle[0][1] is 1 else "Hayır")
+            self.ui.LabelBLStatusText.setText("Evet" if foundVehicle[0][2] is 1 else "Hayır")
+            self.setGroupBoxMatchingVehicleInfoButtonsVisibility(True if foundVehicle[0][1] is 0 else False,
+                                                                 False,
+                                                                 True if foundVehicle[0][1] is 1 else False,
+                                                                 True if foundVehicle[0][1] is 1 and foundVehicle[0][2] is 0 else False)
+            self.ui.LabelLabelNotificationMesssageIcon.setPixmap(
+                QPixmap("E:/Repos/License-Plate-Recognizer-GitHub/gui/icon/matching_registry/30x30/search_data_30x30.png"))
+            self.ui.LabelNotificationMesssage.setText("Eşleşme başarılı!")
         else:
-            self.ui.LabelLabelNotificationMesssageIcon.setPixmap(QPixmap("E:\Repos\License-Plate-Recognizer-GitHub\gui\icon\cancel2.png"))
-            self.ui.LabelNotificationMesssage.setText("Eşleşen herhangi bir kayıt bulunamadı!")
+            self.ui.LabelLabelNotificationMesssageIcon.setPixmap(
+                QPixmap("E:/Repos/License-Plate-Recognizer-GitHub/gui/icon/matching_registry/30x30/not_found_30x30.png"))
+            self.ui.LabelNotificationMesssage.setText("Eşleşme bulunamadı!")
+            self.setGroupBoxMatchingVehicleInfoButtonsVisibility(True, True, False, False)
         # end if else
     # end function
 # end class
 
 class MyTableModel(QAbstractTableModel):
-    def __init__(self, datain, parent=None, *args):
+
+    def __init__(self, parent, list, *args):
         QAbstractTableModel.__init__(self, parent, *args)
-        self.arraydata = datain
+        self.mylist = list
+        self.header = ['DURUM', 'PLAKA', 'ZAMAN']
+        self.change_flag = True
 
     def rowCount(self, parent):
-        return len(self.arraydata)
+        return len(self.mylist)
 
     def columnCount(self, parent):
-        return len(self.arraydata[0])
+        return len(self.mylist[0])
 
     def data(self, index, role):
+        value = self.mylist[index.row()][index.column()]
         if not index.isValid():
-            return QVariant()
-        elif role != Qt.DisplayRole:
-            return QVariant()
-        return QVariant(self.arraydata[index.row()][index.column()])
+            return None
+        elif role == Qt.DisplayRole:
+            return value
+        elif role == Qt.DecorationRole:
+            if index.column() == 0:
+                pixmap = self.mylist[index.row()][0]
+                return pixmap
+        return QVariant()
+
+    def headerData(self, col, orientation, role):
+        if orientation == Qt.Horizontal and role == Qt.DisplayRole:
+            return self.header[col]
+        return None
 
 
 if __name__ == '__main__':
