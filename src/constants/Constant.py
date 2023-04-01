@@ -65,4 +65,4 @@ showSteps = False
 ###################################################################################################
 # directory values ################################################################################
 
-strCharacterSetsFilePath = "../dataset/characters"
+strCharacterSetsFilePath = "./dataset/characters"

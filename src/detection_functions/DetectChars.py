@@ -10,7 +10,7 @@ from src.data_processing import GenerateAndTrainData
 # sys.path.append("E:/Repos/License-Plate-Recognizer-GitHub/src/read_and edit_images")
 from src.read_and_edit_images import EditImage
 # sys.path.append("E:/Repos/License-Plate-Recognizer-GitHub/src/selectors")
-from src.selectors import PossibleChar
+from src.selector import PossibleChar
 
 
 def detectCharsInPlates(listOfPossiblePlates):

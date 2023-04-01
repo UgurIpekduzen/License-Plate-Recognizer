@@ -6,7 +6,7 @@ import random
 
 from src.detection_functions import DetectChars
 from src.constants import Constant
-from src.selectors import PossiblePlate
+from src.selector import PossiblePlate
 
 
 def detectPlatesInScene(imgOriginalScene):

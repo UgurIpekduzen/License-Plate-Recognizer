@@ -107,8 +107,8 @@ def generateData():
     listOfNpaClassificationData = np.empty((0, intTotalNumberOfChars))
     for i in range(0, intNumberOfTxtFilePairs + 1):
         if i == intNumberOfTxtFilePairs:
-            np.savetxt("./flattened_images_all_in_one.txt", listOfNpaFlattenedImagesData)
-            np.savetxt("./classifications_all_in_one.txt", listOfNpaClassificationData)
+            np.savetxt("./src/data_processing/flattened_images_all_in_one.txt", listOfNpaFlattenedImagesData)
+            np.savetxt("./src/data_processing/classifications_all_in_one.txt", listOfNpaClassificationData)
             print("training is completed")
             cv2.destroyAllWindows()  # remove windows from memory
             return True
@@ -121,6 +121,8 @@ def generateData():
 
 ###################################################################################################
 def loadKNNDataAndTrainKNN():
+    print(os.getcwd())
+
     try:
         npaClassifications = np.loadtxt("./src/data_processing/classifications_all_in_one.txt", np.float32)  #kullanıcı girdilerinden oluşan sınıflandırma verilerini oku.
     except:  #eğer dosya açılmazsa hata mesajını göster ve False değeri döndür

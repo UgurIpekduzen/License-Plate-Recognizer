@@ -31,6 +31,7 @@ def readLPImagePaths(strFolderPath):
 def fromWebCam():
 
     cam = cv2.VideoCapture(0)
+    ret, imgOriginalScene = cam.read()
     strCorrectLPText = ""
     processTimeInSecond = 0
     while processTimeInSecond is not 10:
@@ -84,6 +85,49 @@ def fromWebCam():
     #end while
     cam.release()
     cv2.destroyAllWindows()
+    # while True:
+    #     for zoomRate in range(100,400, 50):
+
+    #         imgOriginalScene = EditImage.adjust(imgOriginalScene, zoomRate)
+    #         listOfPossiblePlates = DetectPlates.detectPlatesInScene(imgOriginalScene)  # detect plates
+
+    #         listOfPossiblePlates = DetectChars.detectCharsInPlates(listOfPossiblePlates)  # detect chars in plates
+
+    #         if len(listOfPossiblePlates) == 0:  # if no plates were found
+    #             print("\nno license plates were detected\n")  # inform user no plates were found
+                
+    #             time.sleep(1)
+    #             break
+    #         else:  # else
+    #             # if we get in here list of possible plates has at least one plate
+
+    #             # sort the list of possible plates in DESCENDING order (most number of chars to least number of chars)
+    #             listOfPossiblePlates.sort(key=lambda possiblePlate: len(possiblePlate.strChars), reverse=True)
+
+    #             # suppose the plate with the most recognized chars (the first plate in sorted by string length descending order) is the actual plate
+    #             licPlate = listOfPossiblePlates[0]
+
+    #             if len(licPlate.strChars) == 0:  # if no chars were found in the plate
+    #                 print("\nno characters were detected\n\n")  # show message
+                    
+    #                 time.sleep(1)
+    #                 break
+    #             # end if
+    #             else:
+    #                 matchObj = re.search("^(0[1-9]|[1-7][0-9]|8[01])(([A-Z])(\d{4,5})|([A-Z]{2})(\d{3,4})|([A-Z]{3})(\d{2}))$", licPlate.strChars)
+    #                 if (matchObj):
+    #                     print("\nlicense plate read from image = " + licPlate.strChars + "\n\n")  # write license plate text to std out
+    #                     strCorrectLPText = licPlate.strChars
+    #                     processTimeInSecond += 1
+    #                     time.sleep(1)
+    #                     break
+    #                 else:
+    #                     continue
+    #                 # end if else
+    #             # end if else
+    #         # end if else
+    #     # end for
+
     return strCorrectLPText
 #end function
 
@@ -242,7 +286,9 @@ def fromWebCamFrame(frame):
         listOfPossiblePlates = DetectPlates.detectPlatesInScene(imgOriginalScene)  # detect plates
 
         listOfPossiblePlates = DetectChars.detectCharsInPlates(listOfPossiblePlates)  # detect chars in plates
-
+        # if listOfPossiblePlates is None:
+        #     print("liste boş")
+        #     return 
         if len(listOfPossiblePlates) == 0:  # if no plates were found
             print("\nno license plates were detected\n")  # inform user no plates were found
             break
