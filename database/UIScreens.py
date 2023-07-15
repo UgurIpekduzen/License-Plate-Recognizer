@@ -16,6 +16,7 @@ class UIScreens(object):
         print("1 - Yeni kayıt ekle")
         print("2 - Kayıt seç")
         print("3 - Kayıt sil")
+        print("4 - Kayıt güncelle")
     # end function
 
     def insertionScreen(self):
@@ -114,5 +115,34 @@ class UIScreens(object):
                 sleep(1)
 
         print("\n3 - Kayıt seçme ekranına geri dön")
+    # end function
+
+    def updateScreen(self):
+        clear()
+        print("-- KAYIT GÜNCELLEME EKRANI --")
+        
+        allVehicles = SQLQueries.selectAllVehicles()
+        print("   Plaka" + "      |     " + "Kayıtlı Mı?" + "     |   " + "Kara Listede Mi?")
+        for vehicle in allVehicles:
+            print("-------------------------------------------------------------")
+            if(vehicle[0] == ""):
+                print("Boş")
+            else:
+                print('       |         '.join([vehicle[0], "Evet" if vehicle[1] == 1 else "Hayır", "Evet\n" if vehicle[2] == 1 else "Hayır\n"]))
+
+        while True:
+            licensePlateInput = input("Plakayı giriniz: ")
+            matchObj = search("^(0[1-9]|[1-7][0-9]|8[01])(([A-Z])(\d{4,5})|([A-Z]{2})(\d{3,4})|([A-Z]{3})(\d{2}))$", licensePlateInput)
+
+            if(matchObj):
+                foundVehicle = SQLQueries.selectByLicensePlate(licensePlateInput)
+                isRegisteredInput = int(input("Sisteme kayıt durumu: "))
+                isBlacklistedInput = int(input("Kara liste durumu: "))
+                SQLQueries.updateSelectedVehicleInfo(strLicensePlate=foundVehicle, intRegistryStatus=isRegisteredInput, intBlacklistStatus=isBlacklistedInput)
+            else:
+                print("Plaka metni formatına uygun bir giriş yapmadınız, lütfen tekrar deneyiniz!")
+                sleep(1)
+                
+        return 0
     # end function
 #end class

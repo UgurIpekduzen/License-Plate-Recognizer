@@ -3,7 +3,7 @@
 # sys.path.append("E:/Repos/License-Plate-Recognizer-GitHub/src/database")
 from DBConnect import DBConnection
 
-db = DBConnection(host='localhost',user='root',password='1234',database='lpr')
+db = DBConnection(host='localhost',user='root',password='mypassword',database='lpr', port='3306')
 
 def deleteByLicensePlate(strLicensePlate):
     print("Silme işlemi başarılı!")
@@ -32,7 +32,7 @@ def showFoundVehicleDBInfo(strLicensePlate):
 
 def updateSelectedVehicleInfo(strLicensePlate, intRegistryStatus=0, intBlacklistStatus=0):
     condition = 'licensePlate= %s'
-    return db.update('Vehicle', condition, strLicensePlate, isRegistered=intRegistryStatus, isBlackListed=intBlacklistStatus)
+    return db.update('Vehicle', condition, licensePlate=strLicensePlate, isRegistered=intRegistryStatus, isBlackListed=intBlacklistStatus)
 
 def identifyVehicleStatusByLicensePlate(strLicensePlate):
     vehicleDBInfo = selectByLicensePlate(strLicensePlate)

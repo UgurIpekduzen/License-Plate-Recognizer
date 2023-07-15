@@ -33,6 +33,9 @@ def main():
         elif dbui.strMenuName == "selectonescr":
             dbui.selectOneScreen()
         # end elif
+        elif dbui.strMenuName == "updatescr":
+            dbui.updateScreen()
+        # end elif
         intSelectionScreen = int(input())
         dbui.strMenuName = uisw.switch(switcher, intSelectionScreen)
     # end while

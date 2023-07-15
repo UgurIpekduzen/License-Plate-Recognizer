@@ -22,6 +22,9 @@ def selectallscr():
 def selectonescr():
     return "selectonescr"
 
+def updatescr():
+    return "updatescr"
+
 def default():
     print("Hatalı giriş yaptınız lütfen tekrar deneyiniz:")
 
@@ -30,6 +33,7 @@ mainMenuSwitchers = {
     1: insertionscr,
     2: selectionscr,
     3: deletionscr,
+    4: updatescr
 }
 
 insertionSwitchers = {
