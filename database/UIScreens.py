@@ -11,7 +11,7 @@ class UIScreens(object):
         self.strMenuName = "mainmenuscr"
 
     def mainMenuScreen(self):
-
+        clear()
         print("-- BAŞLANGIÇ EKRANI --")
         print("1 - Yeni kayıt ekle")
         print("2 - Kayıt seç")
@@ -135,14 +135,15 @@ class UIScreens(object):
             matchObj = search("^(0[1-9]|[1-7][0-9]|8[01])(([A-Z])(\d{4,5})|([A-Z]{2})(\d{3,4})|([A-Z]{3})(\d{2}))$", licensePlateInput)
 
             if(matchObj):
-                foundVehicle = SQLQueries.selectByLicensePlate(licensePlateInput)
                 isRegisteredInput = int(input("Sisteme kayıt durumu: "))
                 isBlacklistedInput = int(input("Kara liste durumu: "))
-                SQLQueries.updateSelectedVehicleInfo(strLicensePlate=foundVehicle, intRegistryStatus=isRegisteredInput, intBlacklistStatus=isBlacklistedInput)
+                SQLQueries.updateSelectedVehicleInfo(strLicensePlate=licensePlateInput, intRegistryStatus=isRegisteredInput, intBlacklistStatus=isBlacklistedInput)
+                break
             else:
                 print("Plaka metni formatına uygun bir giriş yapmadınız, lütfen tekrar deneyiniz!")
                 sleep(1)
-                
-        return 0
+        
+        print("\n4 - Bir başka kayıt güncelle")        
+        print("0 - Ana menüye dön")
     # end function
 #end class

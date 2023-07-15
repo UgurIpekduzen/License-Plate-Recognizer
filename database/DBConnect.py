@@ -102,7 +102,7 @@ class DBConnection(object):
             self.__close()
 
             return update_rows
-    ## End function update
+    # End function update
 
     def insert(self, table, *args, **kwargs):
         if self.__check(table):

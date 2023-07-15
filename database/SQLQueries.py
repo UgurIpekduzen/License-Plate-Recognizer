@@ -1,7 +1,7 @@
 # import sys
 
 # sys.path.append("E:/Repos/License-Plate-Recognizer-GitHub/src/database")
-from DBConnect import DBConnection
+from .DBConnect import DBConnection
 
 db = DBConnection(host='localhost',user='root',password='mypassword',database='lpr', port='3306')
 
@@ -21,7 +21,7 @@ def selectByLicensePlate(strLicensePlate):
     return db.select('Vehicle',condition,'*', licensePlate=strLicensePlate)
 
 def insertNewLicensePlate(licensePlate, registerStatus = 0, blackListStatus = 0):
-    print("Kayıt işlemi başarılı!")
+    print("\n Kayıt işlemi başarılı!")
     return db.insert('Vehicle', licensePlate=licensePlate, isRegistered=registerStatus, isBlackListed=blackListStatus)
 
 def showFoundVehicleDBInfo(strLicensePlate):
@@ -32,7 +32,8 @@ def showFoundVehicleDBInfo(strLicensePlate):
 
 def updateSelectedVehicleInfo(strLicensePlate, intRegistryStatus=0, intBlacklistStatus=0):
     condition = 'licensePlate= %s'
-    return db.update('Vehicle', condition, licensePlate=strLicensePlate, isRegistered=intRegistryStatus, isBlackListed=intBlacklistStatus)
+    print("\n Seçili kayıt başarıyla güncellendi!")
+    return db.update('Vehicle', condition, strLicensePlate, isRegistered=intRegistryStatus, isBlackListed=intBlacklistStatus)
 
 def identifyVehicleStatusByLicensePlate(strLicensePlate):
     vehicleDBInfo = selectByLicensePlate(strLicensePlate)

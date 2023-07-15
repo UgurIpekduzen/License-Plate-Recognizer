@@ -54,5 +54,9 @@ deletionSwitchers = {
     3: deletionscr
 }
 
+updateSwitchers = {
+    0: mainmenuscr,
+    4: updatescr
+}
 def switch(switcher, screenSelection):
     return switcher.get(screenSelection, default)()
