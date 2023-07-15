@@ -204,8 +204,20 @@ class MyTableModel(QAbstractTableModel):
                 return pixmap
         return QVariant()
 
+    def data(self, index, role):
+        value = self.mylist[index.row()][index.column()]
+        if not index.isValid():
+            return None
+        elif role == Qt.ItemDataRole.DisplayRole:
+            return value
+        elif role == Qt.ItemDataRole.DecorationRole:
+            if index.column() == 0:
+                pixmap = self.mylist[index.row()][0]
+                return pixmap
+        return QVariant()
+
     def headerData(self, col, orientation, role):
-        if orientation == Qt.Horizontal and role == Qt.DisplayRole:
+        if orientation == Qt.Orientation.Horizontal and role == Qt.ItemDataRole.DisplayRole:
             return self.header[col]
         return None
 
