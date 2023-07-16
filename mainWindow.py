@@ -49,13 +49,13 @@ class MainWindow(QWidget):
 
     def setPassIconsByLicensePlateStatus(self, strLicensePlate):
         if SQLQueries.identifyVehicleStatusByLicensePlate(strLicensePlate) is 'U':
-            return QIcon("./icon/pass_icons/unknown.png")
+            return QIcon("./gui/icon/pass_icons/unknown.png")
         elif SQLQueries.identifyVehicleStatusByLicensePlate(strLicensePlate) is 'G':
-            return QIcon("./icon/pass_icons/guest.png")
+            return QIcon("./gui/icon/pass_icons/guest.png")
         elif SQLQueries.identifyVehicleStatusByLicensePlate(strLicensePlate) is 'R':
-            return QIcon("./icon/pass_icons/registered.png")
+            return QIcon("./gui/icon/pass_icons/registered.png")
         elif SQLQueries.identifyVehicleStatusByLicensePlate(strLicensePlate) is 'B':
-            return QIcon("./icon/pass_icons/blacklisted.png")
+            return QIcon("./gui/icon/pass_icons/blacklisted.png")
 
     def getElapsedTime(self, intSecond):
         return time() % intSecond if type(intSecond) is float else int(time() % intSecond)
@@ -64,11 +64,11 @@ class MainWindow(QWidget):
         if SQLQueries.selectByLicensePlate(self.selectedLicensePlate):
             SQLQueries.updateSelectedVehicleInfo(self.selectedLicensePlate, 1, 0)
             self.ui.LabelLabelNotificationMesssageIcon.setPixmap(
-                QPixmap("./icon/matching_registry/30x30/add_data_alt_30x30.png"))
+                QPixmap("./gui/icon/matching_registry/30x30/add_data_alt_30x30.png"))
         else:
             SQLQueries.insertNewLicensePlate(self.selectedLicensePlate, 1, 0)
             self.ui.LabelLabelNotificationMesssageIcon.setPixmap(
-                QPixmap("./icon/matching_registry/30x30/added_30x30.png"))
+                QPixmap("./gui/icon/matching_registry/30x30/added_30x30.png"))
         self.ui.LabelNotificationMesssage.setText("Yeni kayıt ekleme başarılı!")
         self.updateGroupBoxMatchingVehicleInfoLabels()
         self.setGroupBoxMatchingVehicleInfoButtonsVisibility()
@@ -76,7 +76,7 @@ class MainWindow(QWidget):
     def addAsVisitor(self):
         SQLQueries.insertNewLicensePlate(self.selectedLicensePlate, 0, 0)
         self.ui.LabelLabelNotificationMesssageIcon.setPixmap(
-            QPixmap("./icon/matching_registry/30x30/import_data.png"))
+            QPixmap("./gui/icon/matching_registry/30x30/import_data.png"))
         self.ui.LabelNotificationMesssage.setText("Misafir ekleme başarılı!")
         self.updateGroupBoxMatchingVehicleInfoLabels()
         self.setGroupBoxMatchingVehicleInfoButtonsVisibility()
@@ -84,7 +84,7 @@ class MainWindow(QWidget):
     def addToBlackList(self):
         SQLQueries.updateSelectedVehicleInfo(self.selectedLicensePlate, 1, 1)
         self.ui.LabelLabelNotificationMesssageIcon.setPixmap(
-            QPixmap("./icon/matching_registry/30x30/update_30x30.png"))
+            QPixmap("./gui/icon/matching_registry/30x30/update_30x30.png"))
         self.ui.LabelNotificationMesssage.setText("Kara listeye alma başarılı!")
         self.updateGroupBoxMatchingVehicleInfoLabels()
         self.setGroupBoxMatchingVehicleInfoButtonsVisibility()
@@ -92,7 +92,7 @@ class MainWindow(QWidget):
     def deleteCurrentRegistry(self):
         SQLQueries.deleteByLicensePlate(self.selectedLicensePlate)
         self.ui.LabelLabelNotificationMesssageIcon.setPixmap(
-            QPixmap("./icon/matching_registry/30x30/remove_data_30x30.png"))
+            QPixmap("./gui/icon/matching_registry/30x30/remove_data_30x30.png"))
         self.ui.LabelNotificationMesssage.setText("Kayıt silme başarılı!")
         self.updateGroupBoxMatchingVehicleInfoLabels()
         self.setGroupBoxMatchingVehicleInfoButtonsVisibility()
@@ -120,13 +120,13 @@ class MainWindow(QWidget):
 
     def setPassIcons(self):
         self.ui.LabelRegisteredIcon.setPixmap(
-            QPixmap("./icon/pass_icons/registered.png"))
+            QPixmap("./gui/icon/pass_icons/registered.png"))
         self.ui.LabelUnrecognizedIcon.setPixmap(
-            QPixmap("./icon/pass_icons/unknown.png"))
+            QPixmap("./gui/icon/pass_icons/unknown.png"))
         self.ui.LabelBlackListedIcon.setPixmap(
-            QPixmap("./icon/pass_icons/blacklisted.png"))
+            QPixmap("./gui/icon/pass_icons/blacklisted.png"))
         self.ui.LabelGuestIcon.setPixmap(
-            QPixmap("./icon/pass_icons/guest.png"))
+            QPixmap("./gui/icon/pass_icons/guest.png"))
 
     def readLicensePlateFromWebCam(self, image):
 
@@ -135,7 +135,7 @@ class MainWindow(QWidget):
         if self.getElapsedTime(3) is not 0:
             if strReadLicensePlate:
                 self.ui.LabelReadingLPIcon.setPixmap(
-                    QPixmap("./icon/reading_plates/checked.png"))
+                    QPixmap("./gui/icon/reading_plates/checked.png"))
                 self.ui.LabelReadingLPText.setText(strReadLicensePlate)
 
                 arrayTupleElement = (self.setPassIconsByLicensePlateStatus(strReadLicensePlate),
@@ -147,7 +147,7 @@ class MainWindow(QWidget):
                     self.ui.TableViewPreviousPlates.setModel(MyTableModel(self, self.arrayPreviousPlates))
             else:
                 self.ui.LabelReadingLPIcon.setPixmap(
-                    QPixmap("./icon/reading_plates/cancel.png"))
+                    QPixmap("./gui/icon/reading_plates/cancel.png"))
                 self.ui.LabelReadingLPText.setText("PLAKA YOK")
             # end if else
         else:
@@ -167,11 +167,11 @@ class MainWindow(QWidget):
                                                                  True if foundVehicle[0][1] is 1 else False,
                                                                  True if foundVehicle[0][1] is 1 and foundVehicle[0][2] is 0 else False)
             self.ui.LabelLabelNotificationMesssageIcon.setPixmap(
-                QPixmap("./icon/matching_registry/30x30/search_data_30x30.png"))
+                QPixmap("./gui/icon/matching_registry/30x30/search_data_30x30.png"))
             self.ui.LabelNotificationMesssage.setText("Eşleşme başarılı!")
         else:
             self.ui.LabelLabelNotificationMesssageIcon.setPixmap(
-                QPixmap("./icon/matching_registry/30x30/not_found_30x30.png"))
+                QPixmap("./gui/icon/matching_registry/30x30/not_found_30x30.png"))
             self.ui.LabelNotificationMesssage.setText("Eşleşme bulunamadı!")
             self.setGroupBoxMatchingVehicleInfoButtonsVisibility(True, True, False, False)
         # end if else
