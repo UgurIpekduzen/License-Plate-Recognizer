@@ -1,5 +1,7 @@
 version: "3.8"
-
+# networks:  
+#   my-network:
+#     driver: bridge
 services: # adds 2 services: mysql and phpmyadmin to connect with
   mysql:
     image: mysql:latest # use latest version of mysql
@@ -15,7 +17,9 @@ services: # adds 2 services: mysql and phpmyadmin to connect with
       - my-db:/var/lib/mysql
     ports:
       - '3306:3306'
-  
+    # networks:
+    #   - my-network
+
   phpmyadmin:
     container_name: phpmyadmin
     image: phpmyadmin/phpmyadmin:latest
@@ -26,9 +30,19 @@ services: # adds 2 services: mysql and phpmyadmin to connect with
       PMA_HOST: mysql   # define the address/hostname of the mysql server eg mysql container name.
       PMA_USER: root # this is the root user to login on startup
       PMA_PASSWORD: mypassword # use the root password to login on startup.
-      # Create a new user on startup (optional)
-      # MYSQL_USER: newuser
-      # MYSQL_PASSWORD: mypassword
+    # networks:
+    #   - my-network
+  # pythonapp:
+  #   build:
+  #     context: .
+  #     dockerfile: Dockerfile
 
+  # ubuntupython:
+  #   container_name: ubuntupython
+  #   build:
+  #     context: .
+  #     dockerfile: Dockerfile
+  #   networks:
+  #     - my-network
 volumes: # add persistent data even if container is removed.
   my-db:
