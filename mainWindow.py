@@ -37,15 +37,17 @@ class MainWindow(QWidget):
         self.ui.ButtonAddAsVisitor.clicked.connect(self.addAsVisitor)
         self.ui.ButtonDeleteCurrentRegistry.clicked.connect(self.deleteCurrentRegistry)
         self.ui.ButtonAddToBlackList.clicked.connect(self.addToBlackList)
-
+        self.ui.ButtonDeleteFromBlackList.clicked.connect(self.delFromBlackList)
+        
         self.setGroupBoxMatchingVehicleInfoButtonsVisibility()
 
     def setGroupBoxMatchingVehicleInfoButtonsVisibility(self, addNewRegistryBtn=False, addAsVisitorBtn=False,
-                                                        deleteRegistryBtn=False, addBlackListBtn=False):
+                                                        deleteRegistryBtn=False, addBlackListBtn=False, delBlackListBtn=False):
         self.ui.ButtonAddNewRegistry.setVisible(addNewRegistryBtn)
         self.ui.ButtonAddAsVisitor.setVisible(addAsVisitorBtn)
         self.ui.ButtonDeleteCurrentRegistry.setVisible(deleteRegistryBtn)
         self.ui.ButtonAddToBlackList.setVisible(addBlackListBtn)
+        self.ui.ButtonDeleteFromBlackList.setVisible(delBlackListBtn)
 
     def setPassIconsByLicensePlateStatus(self, strLicensePlate):
         if SQLQueries.identifyVehicleStatusByLicensePlate(strLicensePlate) is 'U':
@@ -86,6 +88,14 @@ class MainWindow(QWidget):
         self.ui.LabelLabelNotificationMesssageIcon.setPixmap(
             QPixmap("./gui/icon/matching_registry/30x30/update_30x30.png"))
         self.ui.LabelNotificationMesssage.setText("Kara listeye alma başarılı!")
+        self.updateGroupBoxMatchingVehicleInfoLabels()
+        self.setGroupBoxMatchingVehicleInfoButtonsVisibility()
+    
+    def delFromBlackList(self):
+        SQLQueries.updateSelectedVehicleInfo(self.selectedLicensePlate, 1, 0)
+        self.ui.LabelLabelNotificationMesssageIcon.setPixmap(
+            QPixmap("./gui/icon/matching_registry/30x30/update_30x30.png"))
+        self.ui.LabelNotificationMesssage.setText("Kara listeden çıkarma başarılı!")
         self.updateGroupBoxMatchingVehicleInfoLabels()
         self.setGroupBoxMatchingVehicleInfoButtonsVisibility()
 
@@ -141,10 +151,8 @@ class MainWindow(QWidget):
                 arrayTupleElement = (self.setPassIconsByLicensePlateStatus(strReadLicensePlate),
                                      strReadLicensePlate,
                                      datetime.now().strftime("%d/%m/%Y %H:%M"))
-                if len([item for item in self.arrayPreviousPlates if
-                        (arrayTupleElement[1] in item and arrayTupleElement[2] in item)]) is 0:
-                    self.arrayPreviousPlates.append(arrayTupleElement)
-                    self.ui.TableViewPreviousPlates.setModel(MyTableModel(self, self.arrayPreviousPlates))
+                self.arrayPreviousPlates.append(arrayTupleElement)
+                self.ui.TableViewPreviousPlates.setModel(MyTableModel(self, self.arrayPreviousPlates))
             else:
                 self.ui.LabelReadingLPIcon.setPixmap(
                     QPixmap("./gui/icon/reading_plates/cancel.png"))
@@ -158,22 +166,33 @@ class MainWindow(QWidget):
     def getVehicleInfoFromDatabase(self, item):
         self.selectedLicensePlate = self.arrayPreviousPlates[item.row()][1]
         foundVehicle = SQLQueries.selectByLicensePlate(self.selectedLicensePlate)
-        if foundVehicle:
-            self.ui.LabelLPText.setText(foundVehicle[0][0])
-            self.ui.LabelRegisterStatusText.setText("Evet" if foundVehicle[0][1] is 1 else "Hayır")
-            self.ui.LabelBLStatusText.setText("Evet" if foundVehicle[0][2] is 1 else "Hayır")
-            self.setGroupBoxMatchingVehicleInfoButtonsVisibility(True if foundVehicle[0][1] is 0 else False,
-                                                                 False,
-                                                                 True if foundVehicle[0][1] is 1 else False,
-                                                                 True if foundVehicle[0][1] is 1 and foundVehicle[0][2] is 0 else False)
-            self.ui.LabelLabelNotificationMesssageIcon.setPixmap(
-                QPixmap("./gui/icon/matching_registry/30x30/search_data_30x30.png"))
-            self.ui.LabelNotificationMesssage.setText("Eşleşme başarılı!")
-        else:
+        if len(foundVehicle) == 0:
+            self.ui.LabelLPText.setText(self.selectedLicensePlate)
+            self.ui.LabelRegisterStatusText.setText("Hayır")
+            self.ui.LabelBLStatusText.setText("Hayır")
             self.ui.LabelLabelNotificationMesssageIcon.setPixmap(
                 QPixmap("./gui/icon/matching_registry/30x30/not_found_30x30.png"))
             self.ui.LabelNotificationMesssage.setText("Eşleşme bulunamadı!")
-            self.setGroupBoxMatchingVehicleInfoButtonsVisibility(True, True, False, False)
+            self.setGroupBoxMatchingVehicleInfoButtonsVisibility(True, True, False, False, False)
+        else:
+            if foundVehicle:
+                self.ui.LabelLPText.setText(foundVehicle[0][0])
+                self.ui.LabelRegisterStatusText.setText("Evet" if foundVehicle[0][1] is 1 else "Hayır")
+                self.ui.LabelBLStatusText.setText("Evet" if foundVehicle[0][2] is 1 else "Hayır")
+                self.setGroupBoxMatchingVehicleInfoButtonsVisibility(True if foundVehicle[0][1] is 0 else False,
+                                                                    False,
+                                                                    True if foundVehicle[0][1] is 1 else False,
+                                                                    True if foundVehicle[0][1] is 1 and foundVehicle[0][2] is 0 else False,
+                                                                    True if foundVehicle[0][1] is 1 and foundVehicle[0][2] is 1 else False)
+                self.ui.LabelLabelNotificationMesssageIcon.setPixmap(
+                    QPixmap("./gui/icon/matching_registry/30x30/search_data_30x30.png"))
+                self.ui.LabelNotificationMesssage.setText("Eşleşme başarılı!")
+            else:
+                self.ui.LabelLabelNotificationMesssageIcon.setPixmap(
+                    QPixmap("./gui/icon/matching_registry/30x30/not_found_30x30.png"))
+                self.ui.LabelNotificationMesssage.setText("Eşleşme bulunamadı!")
+                self.setGroupBoxMatchingVehicleInfoButtonsVisibility(True, True, False, False, False)
+            # end if else
         # end if else
     # end function
 # end class

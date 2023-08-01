@@ -509,6 +509,20 @@ class Ui_LPR_App(object):
 "color: #e4f1fe;")
         self.ButtonAddToBlackList.setObjectName("ButtonAddToBlackList")
 
+        self.ButtonDeleteFromBlackList = QtWidgets.QPushButton(parent=self.GroupBoxMatchingVehicleInfo)
+        self.ButtonDeleteFromBlackList.setGeometry(QtCore.QRect(490, 130, 181, 41))
+        font = QtGui.QFont()
+        font.setFamily("Segoe UI")
+        font.setPointSize(12)
+        font.setBold(False)
+        font.setWeight(50)
+        self.ButtonDeleteFromBlackList.setFont(font)
+        self.ButtonDeleteFromBlackList.setCursor(QtGui.QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
+        self.ButtonDeleteFromBlackList.setMouseTracking(True)
+        self.ButtonDeleteFromBlackList.setStyleSheet("background-color: #454545;\n"
+"color: #e4f1fe;")
+        self.ButtonDeleteFromBlackList.setObjectName("ButtonDeleteFromBlackList")
+        
         self.retranslateUi(LPR_App)
         QtCore.QMetaObject.connectSlotsByName(LPR_App)
 
@@ -531,3 +545,4 @@ class Ui_LPR_App(object):
         self.ButtonAddAsVisitor.setText(_translate("LPR_App", "Misafir Olarak Ekle"))
         self.ButtonDeleteCurrentRegistry.setText(_translate("LPR_App", "Sil"))
         self.ButtonAddToBlackList.setText(_translate("LPR_App", "Kara Listeye Al"))
+        self.ButtonDeleteFromBlackList.setText(_translate("LPR_App", "Kara Listeden Kaldır"))
