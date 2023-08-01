@@ -2,8 +2,15 @@
 
 # sys.path.append("E:/Repos/License-Plate-Recognizer-GitHub/src/database")
 from .DBConnect import DBConnection
+import os 
 
-db = DBConnection(host='localhost',user='root',password='mypassword',database='lpr', port='3306')
+# db = DBConnection(host='localhost',user='root',password='mypassword',database='lpr', port='3306')
+db = DBConnection(
+    host = os.environ.get("DATABASE_HOST"),
+    user = os.environ.get("DATABASE_USERNAME"),
+    password = os.environ.get("DATABASE_PASSWORD"),
+    database = os.environ.get("DATABASE"), 
+    port = os.environ.get("DATABASE_SOCKET"))
 
 def deleteByLicensePlate(strLicensePlate):
     print("Silme işlemi başarılı!")
