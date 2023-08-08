@@ -1,0 +1,68 @@
+version: "3.9"
+ 
+services:
+  mysql: 
+    container_name: mysql 
+    platform: linux/x86_64
+    build: ./database/
+    command: --default-authentication-plugin=mysql_native_password
+    restart: unless-stopped
+    environment: 
+      - MYSQL_USER=root
+      - MYSQL_ROOT_PASSWORD=mypassword
+      - MYSQL_PASSWORD=mypassword
+      - MYSQL_DATABASE=lpr 
+    volumes:
+      - my-db:/var/lib/mysql
+    ports:
+      - '3306:3306'
+    networks:
+      - mynetwork
+    tty: true
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+  
+  phpmyadmin:
+    container_name: phpmyadmin
+    platform: linux/x86_64
+    image: phpmyadmin/phpmyadmin:latest
+    ports:
+      - "8080:80"
+    environment:
+     - MYSQL_ROOT_PASSWORD=mypassword  
+     - PMA_HOST=mysql    
+     - PMA_USER=root  
+     - PMA_PASSWORD=mypassword
+    tty: true
+    networks:
+      - mynetwork
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+  
+  # ubuntu:
+  #   image: ubuntu:latest
+  #   container_name: ubuntu
+  #   # restart: always
+  #   tty: true
+  #   networks:
+  #     - mynetwork
+
+  # ubuntu:
+  #   container_name: ubuntu
+  #   # restart: always
+  #   platform: linux/x86_64
+  #   build: 
+  #     context: .
+  #     dockerfile: Dockerfile
+  #   tty: true
+  #   networks:
+  #     - mynetwork
+  #   extra_hosts:
+  #     - "host.docker.internal:host-gateway"
+
+networks:
+  mynetwork:
+    driver: bridge
+ 
+volumes: # add persistent data even if container is removed.
+  my-db:

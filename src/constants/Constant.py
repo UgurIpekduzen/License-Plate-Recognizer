@@ -65,4 +65,4 @@ showSteps = False
 ###################################################################################################
 # directory values ################################################################################
 
-strCharacterSetsFilePath = "E:/Repos/License-Plate-Recognizer-GitHub/dataset/characters"
+strCharacterSetsFilePath = "./dataset/characters"

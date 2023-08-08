@@ -1,15 +1,12 @@
 # DetectPlates.py
-import sys
 import cv2
 import numpy as np
 import math
 import random
 
-import DetectChars
-sys.path.append("E:/Repos/License-Plate-Recognizer-GitHub/src/constants")
-import Constant
-sys.path.append("E:/Repos/License-Plate-Recognizer-GitHub/src/selectors")
-import PossiblePlate
+from src.detection_functions import DetectChars
+from src.constants import Constant
+from src.selector import PossiblePlate
 
 
 def detectPlatesInScene(imgOriginalScene):

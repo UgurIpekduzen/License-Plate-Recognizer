@@ -2,9 +2,7 @@ import cv2
 import numpy as np
 import os
 import sys
-
-sys.path.append("E:/Repos/License-Plate-Recognizer-GitHub/src/constants")
-import Constant
+from src.constants import Constant
 
 kNearest = cv2.ml.KNearest_create()
 
@@ -109,8 +107,8 @@ def generateData():
     listOfNpaClassificationData = np.empty((0, intTotalNumberOfChars))
     for i in range(0, intNumberOfTxtFilePairs + 1):
         if i == intNumberOfTxtFilePairs:
-            np.savetxt("E:/Repos/License-Plate-Recognizer-GitHub/src/data_processing/flattened_images_all_in_one.txt", listOfNpaFlattenedImagesData)
-            np.savetxt("E:/Repos/License-Plate-Recognizer-GitHub/src/data_processing/classifications_all_in_one.txt", listOfNpaClassificationData)
+            np.savetxt("./src/data_processing/flattened_images_all_in_one.txt", listOfNpaFlattenedImagesData)
+            np.savetxt("./src/data_processing/classifications_all_in_one.txt", listOfNpaClassificationData)
             print("training is completed")
             cv2.destroyAllWindows()  # remove windows from memory
             return True
@@ -123,9 +121,10 @@ def generateData():
 
 ###################################################################################################
 def loadKNNDataAndTrainKNN():
+    print(os.getcwd())
 
     try:
-        npaClassifications = np.loadtxt("E:/Repos/License-Plate-Recognizer-GitHub/src/data_processing/classifications_all_in_one.txt", np.float32)  #kullanıcı girdilerinden oluşan sınıflandırma verilerini oku.
+        npaClassifications = np.loadtxt("./src/data_processing/classifications_all_in_one.txt", np.float32)  #kullanıcı girdilerinden oluşan sınıflandırma verilerini oku.
     except:  #eğer dosya açılmazsa hata mesajını göster ve False değeri döndür
         print("error, unable to open classifications_all_in_one.txt, exiting program\n")
         os.system("pause")
@@ -133,7 +132,7 @@ def loadKNNDataAndTrainKNN():
     # end try
 
     try:
-        npaFlattenedImages = np.loadtxt("E:/Repos/License-Plate-Recognizer-GitHub/src/data_processing/flattened_images_all_in_one.txt", np.float32) # txt dosyasındaki resim verilerini oku.
+        npaFlattenedImages = np.loadtxt("./src/data_processing/flattened_images_all_in_one.txt", np.float32) # txt dosyasındaki resim verilerini oku.
     except:   # eğer dosya açılamazsa hata mesajı göster.
         print("error, unable to open flattened_images_all_in_one.txt, exiting program\n")
         os.system("pause")
