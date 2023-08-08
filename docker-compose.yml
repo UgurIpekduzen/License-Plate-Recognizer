@@ -1,6 +1,6 @@
 version: "3.9"
  
-services: # adds 2 services: mysql and phpmyadmin to connect with
+services:
   mysql: 
     container_name: mysql 
     platform: linux/x86_64
@@ -14,7 +14,6 @@ services: # adds 2 services: mysql and phpmyadmin to connect with
       - MYSQL_DATABASE=lpr 
     volumes:
       - my-db:/var/lib/mysql
-      - ./database/conf.d:/etc/mysql/conf.d
     ports:
       - '3306:3306'
     networks:
